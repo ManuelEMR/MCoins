@@ -32,9 +32,6 @@ dependencies:
   records_repo:
     path: ../records_repo
 
-  categories_repo:
-    path: ../categories_repo
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

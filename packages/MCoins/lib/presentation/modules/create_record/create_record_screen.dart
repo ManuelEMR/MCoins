@@ -1,8 +1,8 @@
 import 'package:MCoins/presentation/foundation/views/platform_scaffold.dart';
 import 'package:MCoins/presentation/modules/create_record/create_record_bloc.dart';
-import 'package:categories_repo/categories_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:records_repo/records_repo.dart';
 
 class CreateRecordScreen extends StatefulWidget {
   @override

@@ -1,15 +1,15 @@
 import 'package:MCoins/presentation/modules/home/categories/categories_bloc.dart';
 import 'package:MCoins/presentation/modules/home/categories/home_category_item.dart';
 import 'package:MCoins/presentation/modules/home/models/category_color.dart';
-import 'package:categories_repo/categories_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:records_repo/records_repo.dart';
 
 class CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<CategoriesBloc>(context);
-    return StreamBuilder(
+    return StreamBuilder<List<Category>>(
       stream: bloc.categories,
       builder: (context, AsyncSnapshot<List<Category>> snapshot) {
         final categories = snapshot.data;

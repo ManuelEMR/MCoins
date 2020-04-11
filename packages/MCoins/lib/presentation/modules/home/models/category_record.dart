@@ -1,4 +1,3 @@
-import 'package:categories_repo/categories_repo.dart';
 import 'package:records_repo/records_repo.dart';
 
 class CategoryRecord {

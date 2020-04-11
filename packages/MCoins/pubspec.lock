@@ -99,13 +99,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.0.9"
-  categories_repo:
-    dependency: "direct main"
-    description:
-      path: "../categories_repo"
-      relative: true
-    source: path
-    version: "0.0.1"
   charcode:
     dependency: transitive
     description:
