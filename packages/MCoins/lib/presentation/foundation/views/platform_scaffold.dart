@@ -1,4 +1,4 @@
-import 'package:MCoins/presentation/foundation/platform_builder_widget.dart';
+import 'package:MCoins/presentation/foundation/views/platform_builder_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
