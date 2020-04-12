@@ -12,6 +12,7 @@ class CategoriesBloc extends BaseBloc {
   CategoriesBloc(this._recordsDatabase) {
     _recordsDatabase.categoriesDao
         .watchEntriesInCategories()
-        .listen(_categories.add);
+        .listen(_categories.add)
+        .addTo(subscriptions);
   }
 }

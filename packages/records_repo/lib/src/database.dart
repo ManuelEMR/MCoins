@@ -1,10 +1,12 @@
 import 'package:moor/moor.dart';
 import 'package:records_repo/src/categories/categories_dao.dart';
 import 'package:records_repo/src/categories/category_table.dart';
+import 'package:records_repo/src/records/records_dao.dart';
+import 'package:records_repo/src/records/records_table.dart';
 
 part 'database.g.dart';
 
-@UseMoor(tables: [Categories], daos: [CategoriesDao])
+@UseMoor(tables: [Categories, Records], daos: [CategoriesDao, RecordsDao])
 class RecordsDatabase extends _$RecordsDatabase {
   RecordsDatabase(QueryExecutor e) : super(e);
 

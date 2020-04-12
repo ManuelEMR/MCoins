@@ -1,4 +1,5 @@
 import 'package:MCoins/presentation/di/di_config.dart';
+import 'package:MCoins/presentation/foundation/bloc_provider.dart';
 import 'package:MCoins/presentation/foundation/views/platform_scaffold.dart';
 import 'package:MCoins/presentation/modules/home/categories/categories_bloc.dart';
 import 'package:MCoins/presentation/modules/home/categories/home_category_list.dart';
@@ -15,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<CategoriesBloc>(create: (_) => injector.get<CategoriesBloc>()),
+        BlocProvider<CategoriesBloc>(),
         // Provider<HistoricBloc>(create: (_) => HistoricBloc())
       ],
       child: PlatformScaffold(

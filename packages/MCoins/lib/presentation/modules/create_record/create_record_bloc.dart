@@ -8,12 +8,21 @@ class CreateRecordBloc extends BaseBloc {
   Sink<Category> get category => _category.sink;
 
   Stream<Category> get selectedCategory => _category.stream;
+  Stream<List<Category>> get categories => _categories.stream;
 
   final _note = BehaviorSubject<String>();
   final _amount = BehaviorSubject<String>();
   final _category = BehaviorSubject<Category>();
+  final _categories = BehaviorSubject<List<Category>>();
 
-  CreateRecordBloc() {}
+  final RecordsDatabase _database;
+
+  CreateRecordBloc(this._database) {
+    _database.categoriesDao
+        .watchEntriesInCategories()
+        .listen(_categories.add)
+        .addTo(subscriptions);
+  }
 
   void create() {}
 }
