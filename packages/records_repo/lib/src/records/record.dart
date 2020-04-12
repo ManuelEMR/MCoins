@@ -1,8 +1,8 @@
-class Record {
+class RecordEntity {
   final int id;
   final double amount;
   final String notes;
   final int categoryId;
 
-  Record(this.id, this.amount, this.notes, this.categoryId);
+  RecordEntity(this.id, this.amount, this.notes, this.categoryId);
 }

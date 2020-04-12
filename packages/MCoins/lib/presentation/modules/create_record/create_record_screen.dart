@@ -52,24 +52,24 @@ class _Body extends StatelessWidget {
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 8),
-          StreamBuilder<Category>(
-            stream: bloc.selectedCategory,
-            builder: (context, snapshot) {
-              return DropdownButton<Category>(
-                hint: const Text("Categoría"),
-                value: snapshot.data,
-                onChanged: bloc.category.add,
-                items: Category.all
-                    .map(
-                      (c) => DropdownMenuItem(
-                        value: c,
-                        child: Text(c.name),
-                      ),
-                    )
-                    .toList(),
-              );
-            },
-          ),
+          // StreamBuilder<Category>(
+          //   stream: bloc.selectedCategory,
+          //   builder: (context, snapshot) {
+          //     return DropdownButton<Category>(
+          //       hint: const Text("Categoría"),
+          //       value: snapshot.data,
+          //       onChanged: bloc.category.add,
+          //       items: CategoryEntity.all
+          //           .map(
+          //             (c) => DropdownMenuItem(
+          //               value: c,
+          //               child: Text(c.name),
+          //             ),
+          //           )
+          //           .toList(),
+          //     );
+          //   },
+          // ),
           const SizedBox(height: 24),
           FlatButton(
             textColor: Theme.of(context).primaryColor,

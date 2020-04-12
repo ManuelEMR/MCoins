@@ -15,8 +15,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<CategoriesBloc>(create: (_) => CategoriesBloc()),
-        Provider<HistoricBloc>(create: (_) => HistoricBloc())
+        Provider<CategoriesBloc>(create: (_) => injector.get<CategoriesBloc>()),
+        // Provider<HistoricBloc>(create: (_) => HistoricBloc())
       ],
       child: PlatformScaffold(
         title: const Text("MCoins"),
@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             Container(height: 160, child: CategoryList()),
             const SizedBox(height: 8),
-            HistoricRecordList(),
+            // HistoricRecordList(),
           ],
         ),
       ),

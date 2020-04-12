@@ -13,9 +13,7 @@ class CreateRecordBloc extends BaseBloc {
   final _amount = BehaviorSubject<String>();
   final _category = BehaviorSubject<Category>();
 
-  CreateRecordBloc() {
-    _category.add(Category.all.first);
-  }
+  CreateRecordBloc() {}
 
   void create() {}
 }
