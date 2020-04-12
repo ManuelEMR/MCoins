@@ -1,5 +1,5 @@
 import 'package:MCoins/presentation/foundation/base_bloc.dart';
-import 'package:records_repo/records_repo.dart';
+import 'package:records_db/records_db.dart';
 import 'package:rxdart/subjects.dart';
 
 class CategoriesBloc extends BaseBloc {

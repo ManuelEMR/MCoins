@@ -1,5 +1,5 @@
 import 'package:moor/moor.dart';
-import 'package:records_repo/src/database.dart';
+import 'package:records_db/src/database.dart';
 
 import 'category_table.dart';
 

@@ -2,8 +2,9 @@ import 'package:MCoins/presentation/foundation/bloc_provider.dart';
 import 'package:MCoins/presentation/foundation/views/platform_scaffold.dart';
 import 'package:MCoins/presentation/modules/create_record/create_record_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:records_repo/records_repo.dart';
+import 'package:records_db/records_db.dart';
 
 class CreateRecordScreen extends StatefulWidget {
   @override
@@ -28,9 +29,10 @@ class _Body extends StatefulWidget {
 }
 
 class __BodyState extends State<_Body> {
-  final amountFocusNode = FocusNode();
-  final notesFocusNode = FocusNode();
-  final dateFocusNode = FocusNode();
+  final _amountFocusNode = FocusNode();
+  final _notesFocusNode = FocusNode();
+  final _dateFocusNode = FocusNode();
+  final _dateTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class __BodyState extends State<_Body> {
         children: <Widget>[
           const SizedBox(height: 16),
           TextField(
-            focusNode: amountFocusNode,
+            focusNode: _amountFocusNode,
             decoration: const InputDecoration(
               alignLabelWithHint: true,
               hintText: "100.00",
@@ -51,35 +53,43 @@ class __BodyState extends State<_Body> {
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.next,
             onSubmitted: (_) =>
-                _fieldFocusChange(context, amountFocusNode, notesFocusNode),
+                _fieldFocusChange(context, _amountFocusNode, _notesFocusNode),
           ),
           const SizedBox(height: 16),
           TextField(
-            focusNode: notesFocusNode,
-            decoration: const InputDecoration(
-              alignLabelWithHint: true,
-              hintText: "Tus notas...",
-              labelText: "Notas",
-              border: OutlineInputBorder(),
-            ),
-            onChanged: bloc.note.add,
-            maxLines: 5,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            onSubmitted: (_) =>
-                _fieldFocusChange(context, notesFocusNode, dateFocusNode),
-          ),
+              focusNode: _notesFocusNode,
+              decoration: const InputDecoration(
+                alignLabelWithHint: true,
+                hintText: "Tus notas...",
+                labelText: "Notas",
+                border: OutlineInputBorder(),
+              ),
+              onChanged: bloc.note.add,
+              maxLines: 5,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) {
+                _notesFocusNode.unfocus();
+                _pickDate();
+              }),
           const SizedBox(
             height: 16,
           ),
-          TextField(
-            focusNode: dateFocusNode,
-            decoration: const InputDecoration(
-              alignLabelWithHint: true,
-              labelText: "Fecha",
-              border: OutlineInputBorder(),
+          GestureDetector(
+            onTap: _pickDate,
+            child: AbsorbPointer(
+              child: TextField(
+                controller: _dateTextController,
+                focusNode: _dateFocusNode,
+                decoration: const InputDecoration(
+                  alignLabelWithHint: true,
+                  labelText: "Fecha",
+                  border: OutlineInputBorder(),
+                ),
+                readOnly: true,
+                keyboardType: TextInputType.number,
+              ),
             ),
-            keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 8),
           const _CategoryPicker(),
@@ -94,19 +104,26 @@ class __BodyState extends State<_Body> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-
-    dateFocusNode.addListener(() {
-      if (dateFocusNode.hasFocus) {}
-    });
-  }
-
   void _fieldFocusChange(
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
+  }
+
+  void _pickDate() {
+    FocusScope.of(context).unfocus();
+
+    final now = DateTime.now();
+    final bloc = Provider.of<CreateRecordBloc>(context, listen: false);
+    showDatePicker(
+      context: context,
+      firstDate: DateTime(now.year - 1),
+      initialDate: now,
+      lastDate: DateTime(now.year + 1),
+    ).then((date) {
+      bloc.addDate(date);
+      _dateTextController.text = DateFormat.MMMMd().format(date);
+    });
   }
 }
 

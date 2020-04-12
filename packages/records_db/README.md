@@ -1,4 +1,4 @@
-# records_repo
+# records_db
 
 A new Flutter package project.
 

@@ -1,8 +1,8 @@
 import 'package:moor/moor.dart';
-import 'package:records_repo/src/categories/categories_dao.dart';
-import 'package:records_repo/src/categories/category_table.dart';
-import 'package:records_repo/src/records/records_dao.dart';
-import 'package:records_repo/src/records/records_table.dart';
+import 'package:records_db/src/categories/categories_dao.dart';
+import 'package:records_db/src/categories/category_table.dart';
+import 'package:records_db/src/records/records_dao.dart';
+import 'package:records_db/src/records/records_table.dart';
 
 part 'database.g.dart';
 

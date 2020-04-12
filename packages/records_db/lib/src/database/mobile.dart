@@ -4,7 +4,7 @@ import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-import 'package:records_repo/src/database.dart';
+import 'package:records_db/src/database.dart';
 
 LazyDatabase _openConnection(bool logStatements) {
   // the LazyDatabase util lets us find the right location for the file async.

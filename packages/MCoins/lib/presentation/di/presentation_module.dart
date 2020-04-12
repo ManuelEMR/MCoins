@@ -3,7 +3,7 @@ import 'package:MCoins/presentation/modules/create_record/create_record_bloc.dar
 import 'package:MCoins/presentation/modules/home/categories/categories_bloc.dart';
 import 'package:MCoins/presentation/modules/home/home_router.dart';
 import 'package:flutter_simple_dependency_injection/injector.dart';
-import 'package:records_repo/records_repo.dart';
+import 'package:records_db/records_db.dart';
 
 class PresentationModule extends DIModule {
   @override

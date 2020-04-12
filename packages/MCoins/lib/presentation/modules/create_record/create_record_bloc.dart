@@ -1,5 +1,5 @@
 import 'package:MCoins/presentation/foundation/base_bloc.dart';
-import 'package:records_repo/records_repo.dart';
+import 'package:records_db/records_db.dart';
 import 'package:rxdart/subjects.dart';
 
 class CreateRecordBloc extends BaseBloc {
@@ -13,6 +13,7 @@ class CreateRecordBloc extends BaseBloc {
   final _note = BehaviorSubject<String>();
   final _amount = BehaviorSubject<String>();
   final _category = BehaviorSubject<Category>();
+  final _date = BehaviorSubject<DateTime>();
   final _categories = BehaviorSubject<List<Category>>();
 
   final RecordsDatabase _database;
@@ -22,6 +23,10 @@ class CreateRecordBloc extends BaseBloc {
         .watchEntriesInCategories()
         .listen(_categories.add)
         .addTo(subscriptions);
+  }
+
+  void addDate(DateTime date) {
+    _date.add(date);
   }
 
   void create() {}

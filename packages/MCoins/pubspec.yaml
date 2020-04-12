@@ -28,16 +28,17 @@ dependencies:
   rxdart: ^0.23.1
   provider: ^4.0.4
   freezed_annotation:
-  # Had to replicate records_repo dependencies here as they where not being picked up
+  # Had to replicate records_db dependencies here as they where not being picked up
   # there is probably some config missing?
   moor: ^2.4.2
   moor_ffi: ^0.4.0
   path_provider:
   path:
-  # ends records_repo dependencies
+  # ends records_db dependencies
+  intl: ^0.16.1
 
-  records_repo:
-    path: ../records_repo
+  records_db:
+    path: ../records_db
 
 dev_dependencies:
   flutter_test:
