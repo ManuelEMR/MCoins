@@ -10,6 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
+  records_db:
+    path: ../records_db
 
 dev_dependencies:
   flutter_test:
