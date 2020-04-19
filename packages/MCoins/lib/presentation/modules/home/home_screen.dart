@@ -15,15 +15,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        BlocProvider<CategoriesBloc>(),
-        // Provider<HistoricBloc>(create: (_) => HistoricBloc())
-      ],
+      providers: [BlocProvider<CategoriesBloc>(), BlocProvider<HistoricBloc>()],
       child: PlatformScaffold(
         title: const Text("MCoins"),
         barActions: <Widget>[
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () => _addNewExpense(context),
           )
         ],
@@ -31,7 +28,7 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             Container(height: 160, child: CategoryList()),
             const SizedBox(height: 8),
-            // HistoricRecordList(),
+            HistoricRecordList(),
           ],
         ),
       ),

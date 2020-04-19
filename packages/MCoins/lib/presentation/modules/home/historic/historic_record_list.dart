@@ -1,24 +1,25 @@
 import 'package:MCoins/presentation/modules/home/historic/historic_bloc.dart';
 import 'package:MCoins/presentation/modules/home/historic/previous_record_item.dart';
-import 'package:MCoins/presentation/modules/home/models/category_record.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:records_db/records_db.dart';
 
 class HistoricRecordList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<HistoricBloc>(context);
-    return StreamBuilder<List<CategoryRecord>>(
+    return StreamBuilder<List<RecordWithCategory>>(
         stream: bloc.records,
-        builder: (context, AsyncSnapshot<List<CategoryRecord>> snapshot) {
+        builder: (context, AsyncSnapshot<List<RecordWithCategory>> snapshot) {
           final records = snapshot.data ?? [];
           return ListView.builder(
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             itemBuilder: (_, int index) {
+              final record = records[index];
               return PreviousRecordItem(
-                categoryName: "TODO",
-                amount: "00",
+                categoryName: record.category.name,
+                amount: record.record.amount.toString(),
                 color: Colors.teal,
               );
             },

@@ -1,4 +1,5 @@
-import 'package:records_db/records_db.dart';
+import 'package:records_db/src/categories/categories_dao.dart';
+import 'package:records_db/src/database.dart';
 
 class CategoriesRepository {
   final CategoriesDao _dao;

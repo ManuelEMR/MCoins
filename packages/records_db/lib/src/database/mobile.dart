@@ -9,7 +9,7 @@ import 'package:records_db/src/database.dart';
 LazyDatabase _openConnection(bool logStatements) {
   // the LazyDatabase util lets us find the right location for the file async.
   return LazyDatabase(() async {
-    // put the database file, called db.sqlite here, into the documents folder
+    // put the database file, called records_db.sqlite here, into the documents folder
     // for your app.
     final dbFolder = await getApplicationDocumentsDirectory();
 

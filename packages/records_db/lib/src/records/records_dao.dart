@@ -1,5 +1,6 @@
 import 'package:moor/moor.dart';
 import 'package:records_db/src/database.dart';
+import 'package:records_db/src/records/models/record_with_category.dart';
 
 import 'records_table.dart';
 
@@ -17,4 +18,19 @@ class RecordsDao extends DatabaseAccessor<RecordsDatabase>
   }
 
   Stream<List<Record>> watchRecords() => select(records).watch();
+
+  Stream<List<RecordWithCategory>> watchRecordsWithCategories() {
+    return select(records)
+        .join([
+          leftOuterJoin(
+              db.categories, db.categories.id.equalsExp(records.categoryId)),
+        ])
+        .watch()
+        .map((rows) {
+          return rows
+              .map((row) => RecordWithCategory(
+                  row.readTable(records), row.readTable(db.categories)))
+              .toList();
+        });
+  }
 }

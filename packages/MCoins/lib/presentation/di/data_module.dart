@@ -7,5 +7,11 @@ class DataModule extends DIModule {
   void setupModule(Injector i) {
     i.map<RecordsDatabase>((_) => constructDb(logStatements: true),
         isSingleton: true);
+    i.map((injector) => RecordsRepository(i.get<RecordsDatabase>().recordsDao),
+        isSingleton: true);
+    i.map(
+        (injector) =>
+            CategoriesRepository(i.get<RecordsDatabase>().categoriesDao),
+        isSingleton: true);
   }
 }

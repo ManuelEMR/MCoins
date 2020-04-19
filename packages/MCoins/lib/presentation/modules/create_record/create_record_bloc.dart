@@ -16,11 +16,12 @@ class CreateRecordBloc extends BaseBloc {
   final _date = BehaviorSubject<DateTime>();
   final _categories = BehaviorSubject<List<Category>>();
 
-  final RecordsDatabase _database;
+  final RecordsRepository _recordsRepository;
+  final CategoriesRepository _categoriesRepository;
 
-  CreateRecordBloc(this._database) {
-    _database.categoriesDao
-        .watchEntriesInCategories()
+  CreateRecordBloc(this._categoriesRepository, this._recordsRepository) {
+    _categoriesRepository
+        .watchCategories()
         .listen(_categories.add)
         .addTo(subscriptions);
   }
@@ -29,5 +30,13 @@ class CreateRecordBloc extends BaseBloc {
     _date.add(date);
   }
 
-  void create() {}
+  void create() {
+    final amount = double.tryParse(_amount.value);
+    final notes = _note.value;
+    final createdAt = _date.value;
+    final category = _category.value.id;
+    _recordsRepository
+        .createRecord(amount, notes, createdAt, category)
+        .then((success) => print("Success! $success"));
+  }
 }

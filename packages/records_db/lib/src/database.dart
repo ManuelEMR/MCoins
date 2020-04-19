@@ -11,21 +11,23 @@ class RecordsDatabase extends _$RecordsDatabase {
   RecordsDatabase(QueryExecutor e) : super(e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(beforeOpen: (details) async {
       if (details.wasCreated) {
         // add default categories
-        await batch((b) => b.insertAll(categories, [
-              CategoriesCompanion.insert(name: "Income"),
-              CategoriesCompanion.insert(name: "Food"),
-              CategoriesCompanion.insert(name: "Rent"),
-              CategoriesCompanion.insert(name: "Services"),
-              CategoriesCompanion.insert(name: "Entertainment"),
-              CategoriesCompanion.insert(name: "Other"),
-            ]));
+        await batch(
+          (b) => b.insertAll(categories, [
+            CategoriesCompanion.insert(name: "Income"),
+            CategoriesCompanion.insert(name: "Food"),
+            CategoriesCompanion.insert(name: "Rent"),
+            CategoriesCompanion.insert(name: "Services"),
+            CategoriesCompanion.insert(name: "Entertainment"),
+            CategoriesCompanion.insert(name: "Other"),
+          ]),
+        );
       }
     });
   }
