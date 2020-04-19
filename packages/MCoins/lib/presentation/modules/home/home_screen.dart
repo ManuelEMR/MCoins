@@ -1,6 +1,7 @@
 import 'package:MCoins/presentation/di/di_config.dart';
 import 'package:MCoins/presentation/foundation/bloc_provider.dart';
 import 'package:MCoins/presentation/foundation/views/platform_scaffold.dart';
+import 'package:MCoins/presentation/modules/home/balance/balance_view.dart';
 import 'package:MCoins/presentation/modules/home/categories/categories_bloc.dart';
 import 'package:MCoins/presentation/modules/home/categories/home_category_list.dart';
 import 'package:MCoins/presentation/modules/home/historic/historic_bloc.dart';
@@ -26,6 +27,8 @@ class HomeScreen extends StatelessWidget {
         ],
         child: ListView(
           children: <Widget>[
+            const BalanceView(),
+            const SizedBox(height: 8),
             Container(height: 160, child: CategoryList()),
             const SizedBox(height: 8),
             HistoricRecordList(),

@@ -1,5 +1,7 @@
 import 'package:MCoins/presentation/modules/home/historic/historic_bloc.dart';
 import 'package:MCoins/presentation/modules/home/historic/previous_record_item.dart';
+import 'package:MCoins/presentation/foundation/extensions/category_color.dart';
+import 'package:MCoins/presentation/foundation/extensions/datetime_formatting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:records_db/records_db.dart';
@@ -20,7 +22,8 @@ class HistoricRecordList extends StatelessWidget {
               return PreviousRecordItem(
                 categoryName: record.category.name,
                 amount: record.record.amount.toString(),
-                color: Colors.teal,
+                color: record.category.color,
+                date: record.record.createdAt.shortFormat,
               );
             },
             itemCount: records.length,

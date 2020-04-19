@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class HomeCategoryItem extends StatelessWidget {
-  final Color backgroundColor;
+  final Color detailColor;
   final String title;
 
-  const HomeCategoryItem({this.title, this.backgroundColor});
+  const HomeCategoryItem({this.title, this.detailColor});
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +16,24 @@ class HomeCategoryItem extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: AspectRatio(
         aspectRatio: 0.7,
-        child: Container(
-          color: backgroundColor,
-          child: Center(
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.subtitle1,
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8, top: 8),
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.headline5,
+              ),
             ),
-          ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                height: double.maxFinite,
+                width: 4,
+                color: detailColor,
+              ),
+            )
+          ],
         ),
       ),
     );

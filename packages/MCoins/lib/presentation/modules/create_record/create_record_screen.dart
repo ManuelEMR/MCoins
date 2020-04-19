@@ -180,12 +180,13 @@ class _CategoryPicker extends StatelessWidget {
               ),
               child: DropdownButton<Category>(
                 isExpanded: true,
+                underline: Container(),
                 hint: Text(
                   "Categoría",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
-                      .copyWith(color: Colors.black87, fontSize: 16),
+                      .copyWith(color: Colors.grey[400], fontSize: 16),
                 ),
                 value: snapshot.data,
                 onChanged: bloc.category.add,
