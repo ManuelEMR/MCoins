@@ -29,7 +29,13 @@ class PlatformApp extends StatelessWidget {
 
   Widget buildAndroid(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.orange),
+      theme: ThemeData(
+        primaryColor: const Color(0xff8c3599),
+        primaryColorLight: const Color(0xffb76fbc),
+        primaryColorDark: const Color(0xff4f2276),
+        accentColor: const Color(0xff429935),
+        fontFamily: 'Montserrat',
+      ),
       localizationsDelegates: _localizationDelegates,
       supportedLocales: _supportedLocales,
       home: I18n(child: child),

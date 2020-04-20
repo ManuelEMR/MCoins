@@ -11,7 +11,7 @@ class PlatformScaffold extends StatelessWidget {
 
   PlatformScaffold(
       {Key key,
-      @required this.title,
+      this.title,
       List<Widget> barActions,
       this.leading,
       this.backgroundColor,
@@ -23,11 +23,13 @@ class PlatformScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return PlatformWidgetBuilder(
         androidBuilder: (BuildContext context) => Scaffold(
-              appBar: AppBar(
-                title: title,
-                leading: leading,
-                actions: actions,
-              ),
+              appBar: (title != null && leading != null && actions.isNotEmpty)
+                  ? AppBar(
+                      title: title,
+                      leading: leading,
+                      actions: actions,
+                    )
+                  : null,
               backgroundColor: backgroundColor,
               body: child,
             ),

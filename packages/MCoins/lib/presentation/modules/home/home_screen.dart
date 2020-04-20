@@ -18,7 +18,6 @@ class HomeScreen extends StatelessWidget {
     return MultiProvider(
       providers: [BlocProvider<CategoriesBloc>(), BlocProvider<HistoricBloc>()],
       child: PlatformScaffold(
-        title: const Text("MCoins"),
         barActions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
