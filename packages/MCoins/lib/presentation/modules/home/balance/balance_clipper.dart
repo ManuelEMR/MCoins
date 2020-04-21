@@ -7,8 +7,8 @@ class BalanceClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final path = Path();
 
-    final botLeft = Offset(0, size.height * 0.8);
-    final botRight = Offset(size.width, size.height * 0.8);
+    final botLeft = Offset(0, size.height * 0.6);
+    final botRight = Offset(size.width, size.height * 0.6);
     final centerControlPoint = Offset(size.width / 2, size.height);
 
     path.moveTo(0, 0);

@@ -45,6 +45,10 @@ class PlatformApp extends StatelessWidget {
   Widget buildIOS(BuildContext context) {
     return CupertinoApp(
       localizationsDelegates: _localizationDelegates,
+      theme: const CupertinoThemeData(
+        primaryColor: Color(0xff8c3599),
+        primaryContrastingColor: Color(0xff429935),
+      ),
       home: I18n(child: child),
     );
   }

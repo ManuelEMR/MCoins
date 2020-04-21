@@ -4,8 +4,8 @@ import 'package:MCoins/presentation/foundation/views/platform_scaffold.dart';
 import 'package:MCoins/presentation/modules/home/balance/balance_view.dart';
 import 'package:MCoins/presentation/modules/home/categories/categories_bloc.dart';
 import 'package:MCoins/presentation/modules/home/categories/home_category_list.dart';
-import 'package:MCoins/presentation/modules/home/historic/historic_bloc.dart';
-import 'package:MCoins/presentation/modules/home/historic/historic_record_list.dart';
+import 'package:MCoins/presentation/modules/home/recents/recent_records_bloc.dart';
+import 'package:MCoins/presentation/modules/home/recents/recent_records_view.dart';
 import 'package:MCoins/presentation/modules/home/home_router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,22 +16,21 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [BlocProvider<CategoriesBloc>(), BlocProvider<HistoricBloc>()],
+      providers: [
+        BlocProvider<CategoriesBloc>(),
+        BlocProvider<RecentRecordsBloc>()
+      ],
       child: PlatformScaffold(
-        barActions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _addNewExpense(context),
-          )
-        ],
-        child: ListView(
-          children: <Widget>[
-            const BalanceView(),
-            const SizedBox(height: 8),
-            Container(height: 160, child: CategoryList()),
-            const SizedBox(height: 8),
-            HistoricRecordList(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              const BalanceView(),
+              // const SizedBox(height: 8),
+              // Container(height: 160, child: CategoryList()),
+              // const SizedBox(height: 8),
+              RecentRecordsView(),
+            ],
+          ),
         ),
       ),
     );

@@ -11,6 +11,7 @@ class BalanceView extends StatelessWidget {
       clipper: const BalanceClipper(),
       clipBehavior: Clip.antiAlias,
       child: Container(
+        padding: const EdgeInsets.only(top: 64),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -22,7 +23,9 @@ class BalanceView extends StatelessWidget {
           ),
         ),
         height: 300,
-        child: Center(
+        width: MediaQuery.of(context).size.width,
+        child: Align(
+          alignment: Alignment.topCenter,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
             decoration: BoxDecoration(
@@ -37,8 +40,7 @@ class BalanceView extends StatelessWidget {
               children: [
                 Text(
                   'BALANCE',
-                  style: textTheme.headline6
-                      .copyWith(color: Colors.white, fontFamily: 'Montserrat'),
+                  style: textTheme.headline6.copyWith(color: Colors.white),
                 ),
                 const SizedBox(height: 4),
                 Text(
