@@ -11,8 +11,26 @@ class RecentRecordsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = Provider.of<RecentRecordsBloc>(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text('Recent Spendings', style: Theme.of(context).textTheme.headline6),
+        Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Center(
+                child: Text('Recent Spendings',
+                    style: Theme.of(context).textTheme.headline6)),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () => print("ADD"),
+                ),
+              ),
+            )
+          ],
+        ),
         const SizedBox(height: 24),
         StreamBuilder<List<RecordWithCategory>>(
           stream: bloc.records,
@@ -27,10 +45,21 @@ class RecentRecordsView extends StatelessWidget {
                       date: r.record.createdAt.shortFormat,
                     ))
                 .toList();
-            return Column(children: items);
+            return items.isEmpty
+                ? _EmptyRecordsView()
+                : Column(children: items);
           },
         ),
       ],
+    );
+  }
+}
+
+class _EmptyRecordsView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('No available records'),
     );
   }
 }
