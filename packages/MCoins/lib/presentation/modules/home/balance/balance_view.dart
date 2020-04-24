@@ -1,3 +1,4 @@
+import 'package:MCoins/presentation/foundation/views/gradient_box_decoration.dart';
 import 'package:MCoins/presentation/modules/home/balance/balance_clipper.dart';
 import 'package:flutter/material.dart';
 
@@ -12,15 +13,11 @@ class BalanceView extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Container(
         padding: const EdgeInsets.only(top: 64),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).primaryColorLight
-            ],
-            begin: const Alignment(0, 0),
-            end: const Alignment(1, 1),
-          ),
+        decoration: GradientBoxDecoration(
+          colors: [
+            Theme.of(context).primaryColor,
+            Theme.of(context).primaryColorLight
+          ],
         ),
         height: 300,
         width: MediaQuery.of(context).size.width,

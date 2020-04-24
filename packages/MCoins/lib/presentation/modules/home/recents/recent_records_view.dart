@@ -1,3 +1,5 @@
+import 'package:MCoins/presentation/di/di_config.dart';
+import 'package:MCoins/presentation/modules/home/home_router.dart';
 import 'package:MCoins/presentation/modules/home/recents/recent_records_bloc.dart';
 import 'package:MCoins/presentation/modules/home/recents/previous_record_item.dart';
 import 'package:MCoins/presentation/foundation/extensions/category_color.dart';
@@ -7,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:records_db/records_db.dart';
 
 class RecentRecordsView extends StatelessWidget {
+  final _router = injector.get<HomeRouter>();
+
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<RecentRecordsBloc>(context);
@@ -25,7 +29,7 @@ class RecentRecordsView extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 16),
                 child: IconButton(
                   icon: const Icon(Icons.add),
-                  onPressed: () => print("ADD"),
+                  onPressed: () => _addNewExpense(context),
                 ),
               ),
             )
@@ -52,6 +56,10 @@ class RecentRecordsView extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _addNewExpense(BuildContext context) {
+    _router.openCreateRecord(context);
   }
 }
 
