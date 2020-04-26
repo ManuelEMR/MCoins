@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RecordPropertyItem extends StatelessWidget {
   final IconData iconData;
   final String title;
-  final String subtitle;
+  final Widget subtitle;
 
   const RecordPropertyItem({this.iconData, this.title, this.subtitle});
 
@@ -30,13 +30,7 @@ class RecordPropertyItem extends StatelessWidget {
                     .copyWith(color: Colors.grey),
               ),
               const SizedBox(height: 4),
-              Text(
-                subtitle,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2
-                    .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
-              )
+              subtitle
             ],
           )
         ],

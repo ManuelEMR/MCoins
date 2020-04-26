@@ -11,10 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        BlocProvider<CategoriesBloc>(),
-        BlocProvider<RecentRecordsBloc>()
-      ],
+      providers: [BlocProvider<RecentRecordsBloc>()],
       child: PlatformScaffold(
         child: SingleChildScrollView(
           child: Column(
