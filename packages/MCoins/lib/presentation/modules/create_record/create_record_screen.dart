@@ -22,54 +22,15 @@ class CreateRecordScreen extends StatelessWidget {
         title: const Text('New Transaction'),
         child: SingleChildScrollView(
           child: Column(
-            children: [
-              const SizedBox(height: 32),
+            children: const [
+              SizedBox(height: 32),
               SingleChildScrollView(child: _InnerCard()),
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
             ],
           ),
         ),
       ),
     );
-  }
-}
-
-class _TopBar extends StatelessWidget {
-  final double topBarHeight;
-
-  const _TopBar({Key key, this.topBarHeight}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: topBarHeight,
-      color: Colors.cyan,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Align(
-            alignment: const Alignment(-0.95, 0),
-            child: IconButton(
-              icon: const Icon(Icons.close),
-              color: Colors.white,
-              onPressed: () => _pop(context),
-            ),
-          ),
-          Text(
-            'New Transaction',
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                .copyWith(color: Colors.white),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _pop(BuildContext context) {
-    Navigator.of(context).pop();
   }
 }
 
