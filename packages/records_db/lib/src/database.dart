@@ -16,6 +16,7 @@ class RecordsDatabase extends _$RecordsDatabase {
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(beforeOpen: (details) async {
+      print("DB version: ${details.versionNow}");
       if (details.wasCreated) {
         // add default categories
         await batch(

@@ -9,20 +9,24 @@ import 'package:records_db/records_db.dart';
 class CreateRecordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      child: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.only(top: 8),
-          decoration: GradientBoxDecoration(
-            colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).primaryColorLight
-            ],
-          ),
+    return Container(
+      decoration: GradientBoxDecoration(
+        colors: [
+          Theme.of(context).primaryColor,
+          Theme.of(context).primaryColorLight
+        ],
+      ),
+      child: PlatformScaffold(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text('New Transaction'),
+        child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: const [_TopBar(), SizedBox(height: 32), _InnerCard()],
+            children: [
+              const SizedBox(height: 32),
+              SingleChildScrollView(child: _InnerCard()),
+              const SizedBox(height: 32),
+            ],
           ),
         ),
       ),
@@ -31,30 +35,36 @@ class CreateRecordScreen extends StatelessWidget {
 }
 
 class _TopBar extends StatelessWidget {
-  const _TopBar({Key key}) : super(key: key);
+  final double topBarHeight;
+
+  const _TopBar({Key key, this.topBarHeight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Align(
-          alignment: const Alignment(-0.95, 0),
-          child: IconButton(
-            icon: const Icon(Icons.close),
-            color: Colors.white,
-            onPressed: () => _pop(context),
+    return Container(
+      height: topBarHeight,
+      color: Colors.cyan,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Align(
+            alignment: const Alignment(-0.95, 0),
+            child: IconButton(
+              icon: const Icon(Icons.close),
+              color: Colors.white,
+              onPressed: () => _pop(context),
+            ),
           ),
-        ),
-        Text(
-          'New Transaction',
-          textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: Colors.white),
-        ),
-      ],
+          Text(
+            'New Transaction',
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.white),
+          ),
+        ],
+      ),
     );
   }
 
@@ -63,8 +73,16 @@ class _TopBar extends StatelessWidget {
   }
 }
 
-class _InnerCard extends StatelessWidget {
+class _InnerCard extends StatefulWidget {
   const _InnerCard();
+
+  @override
+  __InnerCardState createState() => __InnerCardState();
+}
+
+class __InnerCardState extends State<_InnerCard> {
+  final _amountFocus = FocusNode();
+  final _noteFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +94,7 @@ class _InnerCard extends StatelessWidget {
         ),
         clipBehavior: Clip.antiAlias,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             GestureDetector(
               onTap: () => _showDatePicker(context),
@@ -101,34 +120,56 @@ class _InnerCard extends StatelessWidget {
                 ),
               ),
             ),
-            RecordPropertyItem(
-              iconData: Icons.attach_money,
-              title: 'Amount',
-              subtitle: Container(
-                width: 200,
-                child: TextField(
-                  maxLines: 1,
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    hintText: '999\$',
+            GestureDetector(
+              onTap: _amountFocus.requestFocus,
+              child: RecordPropertyItem(
+                iconData: Icons.attach_money,
+                title: 'Amount',
+                subtitle: Container(
+                  width: double.maxFinite,
+                  child: TextField(
+                    focusNode: _amountFocus,
+                    maxLines: 1,
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.next,
+                    onSubmitted: (_) {
+                      _noteFocus.requestFocus();
+                    },
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      hintText: '999\$',
+                    ),
                   ),
                 ),
               ),
             ),
-            // RecordPropertyItem(
-            //   iconData: Icons.edit,
-            //   title: 'Note',
-            //   subtitle: const TextField(
-            //     maxLines: 1,
-            //     keyboardType: TextInputType.number,
-            //     textInputAction: TextInputAction.next,
-            //   ),
-            // ),
+            GestureDetector(
+              onTap: _noteFocus.requestFocus,
+              child: RecordPropertyItem(
+                iconData: Icons.edit,
+                title: 'Note',
+                subtitle: TextField(
+                  focusNode: _noteFocus,
+                  maxLines: 1,
+                  maxLength: 50,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: (_) {
+                    _noteFocus.unfocus();
+                  },
+                  decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      hintText: 'Notes...',
+                      counterText: ""),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -147,6 +188,8 @@ class _InnerCard extends StatelessWidget {
 
   void _showCategoryBottomBar(BuildContext context) {
     final bloc = Provider.of<CategoriesBloc>(context, listen: false);
+    final node = FocusScope.of(context);
+    if (!node.hasPrimaryFocus) node.unfocus();
     showModalBottomSheet<Category>(
       context: context,
       builder: (context) {
