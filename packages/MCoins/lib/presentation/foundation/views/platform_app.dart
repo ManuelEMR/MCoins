@@ -33,7 +33,7 @@ class PlatformApp extends StatelessWidget {
         primaryColor: const Color(0xff8c3599),
         primaryColorLight: const Color(0xffb76fbc),
         primaryColorDark: const Color(0xff4f2276),
-        accentColor: const Color(0xff429935),
+        accentColor: const Color(0xff34E641),
         fontFamily: 'Montserrat',
       ),
       localizationsDelegates: _localizationDelegates,

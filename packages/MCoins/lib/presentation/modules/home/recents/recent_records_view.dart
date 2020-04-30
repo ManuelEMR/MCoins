@@ -5,6 +5,7 @@ import 'package:MCoins/presentation/modules/home/recents/previous_record_item.da
 import 'package:MCoins/presentation/foundation/extensions/category_color.dart';
 import 'package:MCoins/presentation/foundation/extensions/datetime_formatting.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:records_db/records_db.dart';
 
@@ -21,8 +22,9 @@ class RecentRecordsView extends StatelessWidget {
           alignment: Alignment.center,
           children: <Widget>[
             Center(
-                child: Text('Recent Spendings',
-                    style: Theme.of(context).textTheme.headline6)),
+              child: Text('Recent Spendings',
+                  style: Theme.of(context).textTheme.headline6),
+            ),
             Align(
               alignment: Alignment.centerRight,
               child: Padding(
@@ -40,15 +42,15 @@ class RecentRecordsView extends StatelessWidget {
           stream: bloc.records,
           builder: (context, AsyncSnapshot<List<RecordWithCategory>> snapshot) {
             final records = snapshot.data ?? [];
-            final items = records
-                .take(10)
-                .map((r) => PreviousRecordItem(
-                      categoryName: r.category.name,
-                      amount: r.record.amount.toString(),
-                      color: r.category.color,
-                      date: r.record.createdAt.shortFormat,
-                    ))
-                .toList();
+            final items = records.take(10).map((r) {
+              final formatter = NumberFormat.currency(name: '');
+              return PreviousRecordItem(
+                categoryName: r.category.name,
+                amount: formatter.format(r.record.amount).toString(),
+                color: r.category.color,
+                date: r.record.createdAt.shortFormat,
+              );
+            }).toList();
             return items.isEmpty
                 ? _EmptyRecordsView()
                 : Column(children: items);

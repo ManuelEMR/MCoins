@@ -29,6 +29,7 @@ dependencies:
   provider: ^4.0.4
   freezed_annotation:
   intl: ^0.16.1
+  fluttertoast: ^4.0.1
 
   records_db:
     path: ../records_db

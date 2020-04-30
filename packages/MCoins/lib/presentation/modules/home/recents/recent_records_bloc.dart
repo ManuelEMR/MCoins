@@ -4,27 +4,19 @@ import 'package:rxdart/subjects.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RecentRecordsBloc extends BaseBloc {
-  Stream<List<RecordWithCategory>> get records => _records.stream;
+  Stream<List<RecordWithCategory>> get records => _records.stream.map((r) {
+        r.sort((a, b) => b.record.createdAt.compareTo(a.record.createdAt));
+        return r;
+      });
 
   final _records = BehaviorSubject<List<RecordWithCategory>>();
 
   final RecordsRepository _recordsRepository;
 
   RecentRecordsBloc(this._recordsRepository) {
-    // _recordsRepository
-    //     .watchAllRecordsWithCategories()
-    //     .listen(_records.add)
-    //     .addTo(subscriptions);
-
-    _records.add([
-      RecordWithCategory(
-          Record(
-              createdAt: DateTime.now(),
-              amount: 1345.6,
-              isExpense: true,
-              id: 1,
-              categoryId: 2),
-          Category(id: 2, name: "Food"))
-    ]);
+    _recordsRepository
+        .watchAllRecordsWithCategories()
+        .listen(_records.add)
+        .addTo(subscriptions);
   }
 }
