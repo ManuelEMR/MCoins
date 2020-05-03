@@ -44,11 +44,14 @@ class RecentRecordsView extends StatelessWidget {
             final records = snapshot.data ?? [];
             final items = records.take(10).map((r) {
               final formatter = NumberFormat.currency(name: '');
-              return PreviousRecordItem(
-                categoryName: r.category.name,
-                amount: formatter.format(r.record.amount).toString(),
-                color: r.category.color,
-                date: r.record.createdAt.shortFormat,
+              return GestureDetector(
+                onTap: () => _editRecord(context, r),
+                child: PreviousRecordItem(
+                  categoryName: r.category.name,
+                  amount: formatter.format(r.record.amount).toString(),
+                  color: r.category.color,
+                  date: r.record.createdAt.shortFormat,
+                ),
               );
             }).toList();
             return items.isEmpty
@@ -62,6 +65,11 @@ class RecentRecordsView extends StatelessWidget {
 
   void _addNewExpense(BuildContext context) {
     _router.openCreateRecord(context);
+  }
+
+  void _editRecord(
+      BuildContext context, RecordWithCategory recordWithCategory) {
+    _router.openCreateRecord(context, recordWithCategory);
   }
 }
 

@@ -7,12 +7,19 @@ import 'package:MCoins/presentation/modules/home/categories/categories_bloc.dart
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:records_db/records_db.dart';
+import 'package:tuple/tuple.dart';
 
 class CreateRecordScreen extends StatelessWidget {
+  final RecordWithCategory recordWithCategory;
+
+  const CreateRecordScreen({this.recordWithCategory});
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CreateRecordBloc>(
+    return BlocProvider<UpsertRecordBloc>(
+      configurator: (UpsertRecordBloc bloc) => bloc.prefill(recordWithCategory),
       child: Container(
         decoration: GradientBoxDecoration(
           colors: [
@@ -23,13 +30,14 @@ class CreateRecordScreen extends StatelessWidget {
         child: PlatformScaffold(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: const Text('New Transaction'),
+          title: Consumer<UpsertRecordBloc>(
+              builder: (_, bloc, __) => Text(bloc.title)),
           child: SingleChildScrollView(
             child: Column(
-              children: const [
-                SizedBox(height: 32),
-                _Body(),
-                SizedBox(height: 32),
+              children: [
+                const SizedBox(height: 32),
+                _Body(recordWithCategory: recordWithCategory),
+                const SizedBox(height: 32),
               ],
             ),
           ),
@@ -40,31 +48,37 @@ class CreateRecordScreen extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({Key key}) : super(key: key);
+  final RecordWithCategory recordWithCategory;
+  const _Body({Key key, this.recordWithCategory}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<CreateRecordBloc>(context);
+    final bloc = Provider.of<UpsertRecordBloc>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
-          const _InnerCard(),
+          _InnerCard(recordWithCategory: recordWithCategory),
           const SizedBox(height: 32),
-          StreamBuilder<bool>(
-              stream: bloc.isCreateButtonEnabled,
-              initialData: false,
+          StreamBuilder<Tuple2<bool, String>>(
+              stream: CombineLatestStream.combine2(
+                  bloc.isCreateButtonEnabled,
+                  bloc.buttonText,
+                  (bool isEnabled, String text) =>
+                      Tuple2<bool, String>(isEnabled, text)),
+              initialData: const Tuple2(false, ''),
               builder: (context, snapshot) {
                 return OutlineButton(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
-                  onPressed:
-                      snapshot.data ? () => createTransaction(context) : null,
+                  onPressed: snapshot.data.item1
+                      ? () => createTransaction(context)
+                      : null,
                   color: Theme.of(context).accentColor,
                   textColor: Colors.white,
                   disabledBorderColor: Colors.black54,
                   shape: const StadiumBorder(),
                   borderSide: BorderSide(
                       color: Theme.of(context).accentColor, width: 3),
-                  child: const Text('CREATE'),
+                  child: Text(snapshot.data.item2),
                 );
               })
         ],
@@ -73,31 +87,35 @@ class _Body extends StatelessWidget {
   }
 
   void createTransaction(BuildContext context) {
-    final bloc = Provider.of<CreateRecordBloc>(context, listen: false);
+    final bloc = Provider.of<UpsertRecordBloc>(context, listen: false);
     bloc
-        .create()
+        .upsert()
         .then((value) => Navigator.of(context).pop())
-        .catchError((Error e) {
+        .catchError((Object e) {
       print(e);
       Fluttertoast.showToast(msg: 'Failed to create transaction');
+      return null;
     });
   }
 }
 
 class _InnerCard extends StatefulWidget {
-  const _InnerCard();
+  final RecordWithCategory recordWithCategory;
+  const _InnerCard({this.recordWithCategory});
 
   @override
-  __InnerCardState createState() => __InnerCardState();
+  _InnerCardState createState() => _InnerCardState();
 }
 
-class __InnerCardState extends State<_InnerCard> {
+class _InnerCardState extends State<_InnerCard> {
   final _amountFocus = FocusNode();
   final _noteFocus = FocusNode();
+  final _amountController = TextEditingController();
+  final _noteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<CreateRecordBloc>(context);
+    final bloc = Provider.of<UpsertRecordBloc>(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: Card(
@@ -149,6 +167,7 @@ class __InnerCardState extends State<_InnerCard> {
                 subtitle: Container(
                   width: double.maxFinite,
                   child: TextField(
+                    controller: _amountController,
                     focusNode: _amountFocus,
                     maxLines: 1,
                     keyboardType: TextInputType.number,
@@ -163,7 +182,6 @@ class __InnerCardState extends State<_InnerCard> {
                     onSubmitted: (_) {
                       _noteFocus.requestFocus();
                     },
-                    onChanged: bloc.amount.add,
                   ),
                 ),
               ),
@@ -174,6 +192,7 @@ class __InnerCardState extends State<_InnerCard> {
                 iconData: Icons.edit,
                 title: 'Note',
                 subtitle: TextField(
+                  controller: _noteController,
                   focusNode: _noteFocus,
                   maxLines: 1,
                   maxLength: 50,
@@ -190,7 +209,6 @@ class __InnerCardState extends State<_InnerCard> {
                   onSubmitted: (_) {
                     _noteFocus.unfocus();
                   },
-                  onChanged: bloc.note.add,
                 ),
               ),
             ),
@@ -200,9 +218,32 @@ class __InnerCardState extends State<_InnerCard> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    final bloc = Provider.of<UpsertRecordBloc>(context, listen: false);
+    _amountController.text =
+        widget.recordWithCategory?.record?.amount?.toString();
+    _amountController.addListener(() {
+      bloc.addAmount(_amountController.text);
+    });
+
+    _noteController.text = widget.recordWithCategory?.record?.notes;
+    _noteController.addListener(() {
+      bloc.addNote(_noteController.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _amountController.dispose();
+    _noteController.dispose();
+  }
+
   void _showDatePicker(BuildContext context) {
     final now = DateTime.now();
-    final bloc = Provider.of<CreateRecordBloc>(context, listen: false);
+    final bloc = Provider.of<UpsertRecordBloc>(context, listen: false);
     showDatePicker(
       context: context,
       firstDate: DateTime(now.year - 1),
@@ -215,7 +256,7 @@ class __InnerCardState extends State<_InnerCard> {
 
   void _showCategoryBottomBar(BuildContext context) {
     final categoriesBloc = Provider.of<CategoriesBloc>(context, listen: false);
-    final bloc = Provider.of<CreateRecordBloc>(context, listen: false);
+    final bloc = Provider.of<UpsertRecordBloc>(context, listen: false);
     final node = FocusScope.of(context);
     if (!node.hasPrimaryFocus) node.unfocus();
     showModalBottomSheet<Category>(

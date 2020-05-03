@@ -30,6 +30,7 @@ dependencies:
   freezed_annotation:
   intl: ^0.16.1
   fluttertoast: ^4.0.1
+  tuple: ^1.0.3
 
   records_db:
     path: ../records_db

@@ -20,4 +20,10 @@ class RecordsRepository {
         categoryId: category);
     return _dao.addRecord(newRecord);
   }
+
+  Future<bool> updateRecord(Record record, int categoryId) {
+    final companion =
+        record.copyWith(categoryId: categoryId).createCompanion(false);
+    return _dao.updateRecord(companion);
+  }
 }

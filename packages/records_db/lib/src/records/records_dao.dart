@@ -17,6 +17,10 @@ class RecordsDao extends DatabaseAccessor<RecordsDatabase>
     return db.into(db.records).insert(entry);
   }
 
+  Future<bool> updateRecord(RecordsCompanion entry) {
+    return db.update(db.records).replace(entry);
+  }
+
   Stream<List<Record>> watchRecords() => select(records).watch();
 
   Stream<List<RecordWithCategory>> watchRecordsWithCategories() {
