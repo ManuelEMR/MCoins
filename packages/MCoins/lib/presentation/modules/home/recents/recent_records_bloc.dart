@@ -14,9 +14,6 @@ class RecentRecordsBloc extends BaseBloc {
   final RecordsRepository _recordsRepository;
 
   RecentRecordsBloc(this._recordsRepository) {
-    _recordsRepository
-        .watchAllRecordsWithCategories()
-        .listen(_records.add)
-        .addTo(subscriptions);
+    _recordsRepository.records.listen(_records.add).addTo(subscriptions);
   }
 }

@@ -21,13 +21,15 @@ class RecordsDatabase extends _$RecordsDatabase {
         // add default categories
         await batch(
           (b) => b.insertAll(categories, [
-            CategoriesCompanion.insert(name: "Salary"),
-            CategoriesCompanion.insert(name: "Food"),
-            CategoriesCompanion.insert(name: "Rent"),
-            CategoriesCompanion.insert(name: "Services"),
-            CategoriesCompanion.insert(name: "Transport"),
-            CategoriesCompanion.insert(name: "Entertainment"),
-            CategoriesCompanion.insert(name: "Other"),
+            CategoriesCompanion.insert(name: "Salary", isExpense: false),
+            CategoriesCompanion.insert(name: "Deposits", isExpense: false),
+            CategoriesCompanion.insert(name: "Food", isExpense: true),
+            CategoriesCompanion.insert(name: "Rent", isExpense: true),
+            CategoriesCompanion.insert(name: "Services", isExpense: true),
+            CategoriesCompanion.insert(name: "Transportation", isExpense: true),
+            CategoriesCompanion.insert(name: "Entertainment", isExpense: true),
+            CategoriesCompanion.insert(name: "Sports", isExpense: true),
+            CategoriesCompanion.insert(name: "Other", isExpense: true),
           ]),
         );
       }

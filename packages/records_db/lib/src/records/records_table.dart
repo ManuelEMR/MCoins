@@ -7,5 +7,4 @@ class Records extends Table {
   TextColumn get notes => text().nullable().withLength(max: 50)();
   DateTimeColumn get createdAt => dateTime()();
   IntColumn get categoryId => integer()();
-  BoolColumn get isExpense => boolean().withDefault(const Constant(false))();
 }

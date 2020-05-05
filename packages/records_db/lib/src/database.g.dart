@@ -10,15 +10,19 @@ part of 'database.dart';
 class Category extends DataClass implements Insertable<Category> {
   final int id;
   final String name;
-  Category({@required this.id, @required this.name});
+  final bool isExpense;
+  Category({@required this.id, @required this.name, @required this.isExpense});
   factory Category.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
     return Category(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      isExpense: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_expense']),
     );
   }
   factory Category.fromJson(Map<String, dynamic> json,
@@ -27,6 +31,7 @@ class Category extends DataClass implements Insertable<Category> {
     return Category(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      isExpense: serializer.fromJson<bool>(json['isExpense']),
     );
   }
   @override
@@ -35,6 +40,7 @@ class Category extends DataClass implements Insertable<Category> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
+      'isExpense': serializer.toJson<bool>(isExpense),
     };
   }
 
@@ -43,45 +49,60 @@ class Category extends DataClass implements Insertable<Category> {
     return CategoriesCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      isExpense: isExpense == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isExpense),
     );
   }
 
-  Category copyWith({int id, String name}) => Category(
+  Category copyWith({int id, String name, bool isExpense}) => Category(
         id: id ?? this.id,
         name: name ?? this.name,
+        isExpense: isExpense ?? this.isExpense,
       );
   @override
   String toString() {
     return (StringBuffer('Category(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('isExpense: $isExpense')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode, name.hashCode));
+  int get hashCode =>
+      $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, isExpense.hashCode)));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is Category && other.id == this.id && other.name == this.name);
+      (other is Category &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.isExpense == this.isExpense);
 }
 
 class CategoriesCompanion extends UpdateCompanion<Category> {
   final Value<int> id;
   final Value<String> name;
+  final Value<bool> isExpense;
   const CategoriesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.isExpense = const Value.absent(),
   });
   CategoriesCompanion.insert({
     this.id = const Value.absent(),
     @required String name,
-  }) : name = Value(name);
-  CategoriesCompanion copyWith({Value<int> id, Value<String> name}) {
+    @required bool isExpense,
+  })  : name = Value(name),
+        isExpense = Value(isExpense);
+  CategoriesCompanion copyWith(
+      {Value<int> id, Value<String> name, Value<bool> isExpense}) {
     return CategoriesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
+      isExpense: isExpense ?? this.isExpense,
     );
   }
 }
@@ -112,8 +133,20 @@ class $CategoriesTable extends Categories
     );
   }
 
+  final VerificationMeta _isExpenseMeta = const VerificationMeta('isExpense');
+  GeneratedBoolColumn _isExpense;
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  GeneratedBoolColumn get isExpense => _isExpense ??= _constructIsExpense();
+  GeneratedBoolColumn _constructIsExpense() {
+    return GeneratedBoolColumn(
+      'is_expense',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, name, isExpense];
   @override
   $CategoriesTable get asDslTable => this;
   @override
@@ -132,6 +165,12 @@ class $CategoriesTable extends Categories
           _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
+    }
+    if (d.isExpense.present) {
+      context.handle(_isExpenseMeta,
+          isExpense.isAcceptableValue(d.isExpense.value, _isExpenseMeta));
+    } else if (isInserting) {
+      context.missing(_isExpenseMeta);
     }
     return context;
   }
@@ -153,6 +192,9 @@ class $CategoriesTable extends Categories
     if (d.name.present) {
       map['name'] = Variable<String, StringType>(d.name.value);
     }
+    if (d.isExpense.present) {
+      map['is_expense'] = Variable<bool, BoolType>(d.isExpense.value);
+    }
     return map;
   }
 
@@ -168,14 +210,12 @@ class Record extends DataClass implements Insertable<Record> {
   final String notes;
   final DateTime createdAt;
   final int categoryId;
-  final bool isExpense;
   Record(
       {@required this.id,
       @required this.amount,
       this.notes,
       @required this.createdAt,
-      @required this.categoryId,
-      @required this.isExpense});
+      @required this.categoryId});
   factory Record.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -183,7 +223,6 @@ class Record extends DataClass implements Insertable<Record> {
     final doubleType = db.typeSystem.forDartType<double>();
     final stringType = db.typeSystem.forDartType<String>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    final boolType = db.typeSystem.forDartType<bool>();
     return Record(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       amount:
@@ -194,8 +233,6 @@ class Record extends DataClass implements Insertable<Record> {
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       categoryId: intType
           .mapFromDatabaseResponse(data['${effectivePrefix}category_id']),
-      isExpense: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_expense']),
     );
   }
   factory Record.fromJson(Map<String, dynamic> json,
@@ -207,7 +244,6 @@ class Record extends DataClass implements Insertable<Record> {
       notes: serializer.fromJson<String>(json['notes']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       categoryId: serializer.fromJson<int>(json['categoryId']),
-      isExpense: serializer.fromJson<bool>(json['isExpense']),
     );
   }
   @override
@@ -219,7 +255,6 @@ class Record extends DataClass implements Insertable<Record> {
       'notes': serializer.toJson<String>(notes),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'categoryId': serializer.toJson<int>(categoryId),
-      'isExpense': serializer.toJson<bool>(isExpense),
     };
   }
 
@@ -237,9 +272,6 @@ class Record extends DataClass implements Insertable<Record> {
       categoryId: categoryId == null && nullToAbsent
           ? const Value.absent()
           : Value(categoryId),
-      isExpense: isExpense == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isExpense),
     );
   }
 
@@ -248,15 +280,13 @@ class Record extends DataClass implements Insertable<Record> {
           double amount,
           String notes,
           DateTime createdAt,
-          int categoryId,
-          bool isExpense}) =>
+          int categoryId}) =>
       Record(
         id: id ?? this.id,
         amount: amount ?? this.amount,
         notes: notes ?? this.notes,
         createdAt: createdAt ?? this.createdAt,
         categoryId: categoryId ?? this.categoryId,
-        isExpense: isExpense ?? this.isExpense,
       );
   @override
   String toString() {
@@ -265,8 +295,7 @@ class Record extends DataClass implements Insertable<Record> {
           ..write('amount: $amount, ')
           ..write('notes: $notes, ')
           ..write('createdAt: $createdAt, ')
-          ..write('categoryId: $categoryId, ')
-          ..write('isExpense: $isExpense')
+          ..write('categoryId: $categoryId')
           ..write(')'))
         .toString();
   }
@@ -276,10 +305,8 @@ class Record extends DataClass implements Insertable<Record> {
       id.hashCode,
       $mrjc(
           amount.hashCode,
-          $mrjc(
-              notes.hashCode,
-              $mrjc(createdAt.hashCode,
-                  $mrjc(categoryId.hashCode, isExpense.hashCode))))));
+          $mrjc(notes.hashCode,
+              $mrjc(createdAt.hashCode, categoryId.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -288,8 +315,7 @@ class Record extends DataClass implements Insertable<Record> {
           other.amount == this.amount &&
           other.notes == this.notes &&
           other.createdAt == this.createdAt &&
-          other.categoryId == this.categoryId &&
-          other.isExpense == this.isExpense);
+          other.categoryId == this.categoryId);
 }
 
 class RecordsCompanion extends UpdateCompanion<Record> {
@@ -298,14 +324,12 @@ class RecordsCompanion extends UpdateCompanion<Record> {
   final Value<String> notes;
   final Value<DateTime> createdAt;
   final Value<int> categoryId;
-  final Value<bool> isExpense;
   const RecordsCompanion({
     this.id = const Value.absent(),
     this.amount = const Value.absent(),
     this.notes = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.categoryId = const Value.absent(),
-    this.isExpense = const Value.absent(),
   });
   RecordsCompanion.insert({
     this.id = const Value.absent(),
@@ -313,7 +337,6 @@ class RecordsCompanion extends UpdateCompanion<Record> {
     this.notes = const Value.absent(),
     @required DateTime createdAt,
     @required int categoryId,
-    this.isExpense = const Value.absent(),
   })  : amount = Value(amount),
         createdAt = Value(createdAt),
         categoryId = Value(categoryId);
@@ -322,15 +345,13 @@ class RecordsCompanion extends UpdateCompanion<Record> {
       Value<double> amount,
       Value<String> notes,
       Value<DateTime> createdAt,
-      Value<int> categoryId,
-      Value<bool> isExpense}) {
+      Value<int> categoryId}) {
     return RecordsCompanion(
       id: id ?? this.id,
       amount: amount ?? this.amount,
       notes: notes ?? this.notes,
       createdAt: createdAt ?? this.createdAt,
       categoryId: categoryId ?? this.categoryId,
-      isExpense: isExpense ?? this.isExpense,
     );
   }
 }
@@ -392,18 +413,9 @@ class $RecordsTable extends Records with TableInfo<$RecordsTable, Record> {
     );
   }
 
-  final VerificationMeta _isExpenseMeta = const VerificationMeta('isExpense');
-  GeneratedBoolColumn _isExpense;
-  @override
-  GeneratedBoolColumn get isExpense => _isExpense ??= _constructIsExpense();
-  GeneratedBoolColumn _constructIsExpense() {
-    return GeneratedBoolColumn('is_expense', $tableName, false,
-        defaultValue: const Constant(false));
-  }
-
   @override
   List<GeneratedColumn> get $columns =>
-      [id, amount, notes, createdAt, categoryId, isExpense];
+      [id, amount, notes, createdAt, categoryId];
   @override
   $RecordsTable get asDslTable => this;
   @override
@@ -439,10 +451,6 @@ class $RecordsTable extends Records with TableInfo<$RecordsTable, Record> {
     } else if (isInserting) {
       context.missing(_categoryIdMeta);
     }
-    if (d.isExpense.present) {
-      context.handle(_isExpenseMeta,
-          isExpense.isAcceptableValue(d.isExpense.value, _isExpenseMeta));
-    }
     return context;
   }
 
@@ -471,9 +479,6 @@ class $RecordsTable extends Records with TableInfo<$RecordsTable, Record> {
     }
     if (d.categoryId.present) {
       map['category_id'] = Variable<int, IntType>(d.categoryId.value);
-    }
-    if (d.isExpense.present) {
-      map['is_expense'] = Variable<bool, BoolType>(d.isExpense.value);
     }
     return map;
   }

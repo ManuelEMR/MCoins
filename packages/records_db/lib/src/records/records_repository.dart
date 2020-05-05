@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:moor/moor.dart';
 import 'package:records_db/src/database.dart';
 import 'package:records_db/src/records/models/record_with_category.dart';
@@ -5,11 +7,13 @@ import 'package:records_db/src/records/records_dao.dart';
 
 class RecordsRepository {
   final RecordsDao _dao;
+  Stream<List<RecordWithCategory>> get records => _records.stream;
 
-  RecordsRepository(this._dao);
+  final _records = StreamController<List<RecordWithCategory>>.broadcast();
 
-  Stream<List<RecordWithCategory>> watchAllRecordsWithCategories() =>
-      _dao.watchRecordsWithCategories();
+  RecordsRepository(this._dao) {
+    _dao.watchRecordsWithCategories().listen(_records.add);
+  }
 
   Future<int> createRecord(
       double amount, String notes, DateTime createdAt, int category) {
