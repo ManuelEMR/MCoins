@@ -1,3 +1,4 @@
+import 'package:MCoins/presentation/modules/home/categories/corner_detail_painter.dart';
 import 'package:flutter/material.dart';
 
 class HomeCategoryItem extends StatelessWidget {
@@ -8,32 +9,25 @@ class HomeCategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: AspectRatio(
-        aspectRatio: 0.7,
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8, top: 8),
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.headline5,
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                height: double.maxFinite,
-                width: 4,
-                color: detailColor,
-              ),
-            )
-          ],
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: detailColor.withAlpha(50),
+            width: 4,
+          ),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Center(
+          child: Text(
+            title,
+            style: Theme.of(context)
+                .textTheme
+                .headline5
+                .copyWith(fontWeight: FontWeight.w500),
+          ),
         ),
       ),
     );

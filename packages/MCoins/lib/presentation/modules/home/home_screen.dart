@@ -2,6 +2,8 @@ import 'package:MCoins/presentation/foundation/bloc_provider.dart';
 import 'package:MCoins/presentation/foundation/views/platform_scaffold.dart';
 import 'package:MCoins/presentation/modules/home/balance/balance_view.dart';
 import 'package:MCoins/presentation/modules/home/categories/categories_bloc.dart';
+import 'package:MCoins/presentation/modules/home/categories/categories_view.dart';
+import 'package:MCoins/presentation/modules/home/categories/home_category_list.dart';
 import 'package:MCoins/presentation/modules/home/recents/recent_records_bloc.dart';
 import 'package:MCoins/presentation/modules/home/recents/recent_records_view.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +19,8 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               const BalanceView(),
-              // const SizedBox(height: 8),
-              // Container(height: 160, child: CategoryList()),
-              // const SizedBox(height: 8),
+              CategoriesView(),
+              const SizedBox(height: 32),
               RecentRecordsView(),
             ],
           ),

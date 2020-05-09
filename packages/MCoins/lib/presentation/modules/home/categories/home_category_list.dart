@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:records_db/records_db.dart';
 
 class CategoryList extends StatelessWidget {
+  const CategoryList();
+
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<CategoriesBloc>(context);
@@ -13,17 +15,19 @@ class CategoryList extends StatelessWidget {
       stream: bloc.categories,
       builder: (context, AsyncSnapshot<List<Category>> snapshot) {
         final categories = snapshot.data ?? [];
-        return ListView.builder(
+        return GridView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemBuilder: (_, int index) {
-            return HomeCategoryItem(
-              title: categories[index].name,
-              detailColor: categories[index].color,
-            );
-          },
-          itemCount: categories.length ?? 0,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 5,
+            childAspectRatio: 0.3,
+          ),
+          itemCount: categories.length,
+          itemBuilder: (context, index) => HomeCategoryItem(
+            title: categories[index].name,
+            detailColor: categories[index].color,
+          ),
         );
       },
     );
