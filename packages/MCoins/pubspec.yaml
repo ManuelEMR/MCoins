@@ -33,6 +33,7 @@ dependencies:
   intl: ^0.16.1
   fluttertoast: ^4.0.1
   tuple: ^1.0.3
+  collection: ^1.14.12
 
   records_db:
     path: ../records_db

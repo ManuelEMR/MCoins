@@ -5,6 +5,7 @@ import 'package:MCoins/presentation/modules/category_detail/category_detail_bloc
 import 'package:MCoins/presentation/modules/category_detail/date_header_view.dart';
 import 'package:MCoins/presentation/modules/home/recents/previous_record_item.dart';
 import 'package:MCoins/presentation/modules/home/recents/recent_records_view.dart';
+import 'package:MCoins/presentation/foundation/extensions/datetime_formatting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:records_db/records_db.dart';
@@ -19,6 +20,7 @@ class CategoryDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CategoryDetailBloc>(
+      configurator: (bloc) => bloc.getRecords(category),
       child: Container(
         decoration: GradientBoxDecoration(
           colors: [
@@ -37,7 +39,9 @@ class CategoryDetailScreen extends StatelessWidget {
               icon: Icon(Icons.add),
             )
           ],
-          child: const _List(),
+          child: _List(
+            category: category,
+          ),
         ),
       ),
     );
@@ -45,40 +49,46 @@ class CategoryDetailScreen extends StatelessWidget {
 }
 
 class _List extends StatelessWidget {
-  const _List({Key key}) : super(key: key);
+  final Category category;
+  const _List({Key key, this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<CategoryDetailBloc>(context);
     return StreamBuilder<List<ItemType>>(
-        stream: bloc.items,
-        builder: (context, snapshot) {
-          final items = snapshot.data ?? [];
-          if (items.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  'No transactions for this category, press the add button to add a new one!',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
+      stream: bloc.items,
+      builder: (context, snapshot) {
+        final items = snapshot.data ?? [];
+        if (items.isEmpty) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                'No transactions for this category, press the add button to add a new one!',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(color: Colors.white),
+                textAlign: TextAlign.center,
               ),
-            );
-          } else {
-            return ListView.builder(itemBuilder: (_, index) {
+            ),
+          );
+        } else {
+          return ListView.builder(
+            padding: const EdgeInsets.only(top: 16),
+            itemCount: items.length,
+            itemBuilder: (_, index) {
               final item = items[index];
               return item.when(
-                header: () => DateHeaderView(date: '12/12/1992'),
-                item: (recordWithCategory) => PreviousRecordItem.fromModel(
-                    recordWithCategory,
+                header: (date) => DateHeaderView(date: date.monthYearFormat),
+                item: (record) => PreviousRecordItem.fromModel(
+                    RecordWithCategory(record, category),
                     backgroundColor: Colors.white),
               );
-            });
-          }
-        });
+            },
+          );
+        }
+      },
+    );
   }
 }

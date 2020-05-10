@@ -8,4 +8,8 @@ extension DateTimeFormats on DateTime {
   String get mediumFormat {
     return DateFormat.yMMMMd().format(this);
   }
+
+  String get monthYearFormat {
+    return DateFormat.yMMM().format(this);
+  }
 }

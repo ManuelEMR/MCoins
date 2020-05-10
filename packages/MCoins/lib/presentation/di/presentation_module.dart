@@ -17,6 +17,6 @@ class PresentationModule extends DIModule {
     i.map((i) => RecentRecordsBloc(i.get<RecordsRepository>()));
     i.map((i) => UpsertRecordBloc(
         i.get<CategoriesRepository>(), i.get<RecordsRepository>()));
-    i.map((i) => CategoryDetailBloc());
+    i.map((i) => CategoryDetailBloc(i.get<RecordsRepository>()));
   }
 }

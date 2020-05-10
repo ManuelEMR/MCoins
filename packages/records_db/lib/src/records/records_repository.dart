@@ -30,4 +30,8 @@ class RecordsRepository {
         record.copyWith(categoryId: categoryId).createCompanion(false);
     return _dao.updateRecord(companion);
   }
+
+  Future<List<Record>> getRecordsForCategory(int categoryId) {
+    return _dao.getRecordsForCategory(categoryId);
+  }
 }

@@ -7,8 +7,12 @@ class DateHeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
-      child: Text(date),
-    );
+        padding: const EdgeInsets.only(top: 8, left: 16, bottom: 8),
+        height: 60,
+        child: Text(date,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.white)));
   }
 }

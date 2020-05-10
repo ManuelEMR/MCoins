@@ -12,13 +12,15 @@ T _$identity<T>(T value) => value;
 class _$ItemTypeTearOff {
   const _$ItemTypeTearOff();
 
-  Header header() {
-    return const Header();
+  Header header({DateTime date}) {
+    return Header(
+      date: date,
+    );
   }
 
-  Item item({RecordWithCategory recordWithCategory}) {
+  Item item({Record record}) {
     return Item(
-      recordWithCategory: recordWithCategory,
+      record: record,
     );
   }
 }
@@ -29,13 +31,13 @@ const $ItemType = _$ItemTypeTearOff();
 mixin _$ItemType {
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result header(),
-    @required Result item(RecordWithCategory recordWithCategory),
+    @required Result header(DateTime date),
+    @required Result item(Record record),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result header(),
-    Result item(RecordWithCategory recordWithCategory),
+    Result header(DateTime date),
+    Result item(Record record),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -67,6 +69,7 @@ class _$ItemTypeCopyWithImpl<$Res> implements $ItemTypeCopyWith<$Res> {
 abstract class $HeaderCopyWith<$Res> {
   factory $HeaderCopyWith(Header value, $Res Function(Header) then) =
       _$HeaderCopyWithImpl<$Res>;
+  $Res call({DateTime date});
 }
 
 class _$HeaderCopyWithImpl<$Res> extends _$ItemTypeCopyWithImpl<$Res>
@@ -76,45 +79,65 @@ class _$HeaderCopyWithImpl<$Res> extends _$ItemTypeCopyWithImpl<$Res>
 
   @override
   Header get _value => super._value as Header;
+
+  @override
+  $Res call({
+    Object date = freezed,
+  }) {
+    return _then(Header(
+      date: date == freezed ? _value.date : date as DateTime,
+    ));
+  }
 }
 
 class _$Header implements Header {
-  const _$Header();
+  const _$Header({this.date});
+
+  @override
+  final DateTime date;
 
   @override
   String toString() {
-    return 'ItemType.header()';
+    return 'ItemType.header(date: $date)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is Header);
+    return identical(this, other) ||
+        (other is Header &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(date);
+
+  @override
+  $HeaderCopyWith<Header> get copyWith =>
+      _$HeaderCopyWithImpl<Header>(this, _$identity);
 
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result header(),
-    @required Result item(RecordWithCategory recordWithCategory),
+    @required Result header(DateTime date),
+    @required Result item(Record record),
   }) {
     assert(header != null);
     assert(item != null);
-    return header();
+    return header(date);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result header(),
-    Result item(RecordWithCategory recordWithCategory),
+    Result header(DateTime date),
+    Result item(Record record),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (header != null) {
-      return header();
+      return header(date);
     }
     return orElse();
   }
@@ -146,13 +169,16 @@ class _$Header implements Header {
 }
 
 abstract class Header implements ItemType {
-  const factory Header() = _$Header;
+  const factory Header({DateTime date}) = _$Header;
+
+  DateTime get date;
+  $HeaderCopyWith<Header> get copyWith;
 }
 
 abstract class $ItemCopyWith<$Res> {
   factory $ItemCopyWith(Item value, $Res Function(Item) then) =
       _$ItemCopyWithImpl<$Res>;
-  $Res call({RecordWithCategory recordWithCategory});
+  $Res call({Record record});
 }
 
 class _$ItemCopyWithImpl<$Res> extends _$ItemTypeCopyWithImpl<$Res>
@@ -165,40 +191,36 @@ class _$ItemCopyWithImpl<$Res> extends _$ItemTypeCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object recordWithCategory = freezed,
+    Object record = freezed,
   }) {
     return _then(Item(
-      recordWithCategory: recordWithCategory == freezed
-          ? _value.recordWithCategory
-          : recordWithCategory as RecordWithCategory,
+      record: record == freezed ? _value.record : record as Record,
     ));
   }
 }
 
 class _$Item implements Item {
-  const _$Item({this.recordWithCategory});
+  const _$Item({this.record});
 
   @override
-  final RecordWithCategory recordWithCategory;
+  final Record record;
 
   @override
   String toString() {
-    return 'ItemType.item(recordWithCategory: $recordWithCategory)';
+    return 'ItemType.item(record: $record)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is Item &&
-            (identical(other.recordWithCategory, recordWithCategory) ||
-                const DeepCollectionEquality()
-                    .equals(other.recordWithCategory, recordWithCategory)));
+            (identical(other.record, record) ||
+                const DeepCollectionEquality().equals(other.record, record)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(recordWithCategory);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(record);
 
   @override
   $ItemCopyWith<Item> get copyWith =>
@@ -207,24 +229,24 @@ class _$Item implements Item {
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result header(),
-    @required Result item(RecordWithCategory recordWithCategory),
+    @required Result header(DateTime date),
+    @required Result item(Record record),
   }) {
     assert(header != null);
     assert(item != null);
-    return item(recordWithCategory);
+    return item(record);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result header(),
-    Result item(RecordWithCategory recordWithCategory),
+    Result header(DateTime date),
+    Result item(Record record),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (item != null) {
-      return item(recordWithCategory);
+      return item(record);
     }
     return orElse();
   }
@@ -256,8 +278,8 @@ class _$Item implements Item {
 }
 
 abstract class Item implements ItemType {
-  const factory Item({RecordWithCategory recordWithCategory}) = _$Item;
+  const factory Item({Record record}) = _$Item;
 
-  RecordWithCategory get recordWithCategory;
+  Record get record;
   $ItemCopyWith<Item> get copyWith;
 }
