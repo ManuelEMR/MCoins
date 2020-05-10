@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               const BalanceView(),
-              CategoriesView(),
+              const CategoriesView(),
               const SizedBox(height: 32),
               RecentRecordsView(),
             ],

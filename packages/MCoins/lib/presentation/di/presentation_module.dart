@@ -1,4 +1,5 @@
 import 'package:MCoins/presentation/di/di_config.dart';
+import 'package:MCoins/presentation/modules/category_detail/category_detail_bloc.dart';
 import 'package:MCoins/presentation/modules/create_record/create_record_bloc.dart';
 import 'package:MCoins/presentation/modules/home/categories/categories_bloc.dart';
 import 'package:MCoins/presentation/modules/home/recents/recent_records_bloc.dart';
@@ -16,5 +17,6 @@ class PresentationModule extends DIModule {
     i.map((i) => RecentRecordsBloc(i.get<RecordsRepository>()));
     i.map((i) => UpsertRecordBloc(
         i.get<CategoriesRepository>(), i.get<RecordsRepository>()));
+    i.map((i) => CategoryDetailBloc());
   }
 }

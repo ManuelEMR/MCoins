@@ -31,7 +31,8 @@ class CreateRecordScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Consumer<UpsertRecordBloc>(
-              builder: (_, bloc, __) => Text(bloc.title)),
+            builder: (_, bloc, __) => Text(bloc.title),
+          ),
           child: SingleChildScrollView(
             child: Column(
               children: [

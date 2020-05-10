@@ -43,15 +43,9 @@ class RecentRecordsView extends StatelessWidget {
           builder: (context, AsyncSnapshot<List<RecordWithCategory>> snapshot) {
             final records = snapshot.data ?? [];
             final items = records.take(10).map((r) {
-              final formatter = NumberFormat.currency(name: '');
               return GestureDetector(
                 onTap: () => _editRecord(context, r),
-                child: PreviousRecordItem(
-                  categoryName: r.category.name,
-                  amount: formatter.format(r.record.amount).toString(),
-                  color: r.category.color,
-                  date: r.record.createdAt.shortFormat,
-                ),
+                child: PreviousRecordItem.fromModel(r),
               );
             }).toList();
             return items.isEmpty
