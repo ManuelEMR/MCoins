@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:MCoins/presentation/foundation/base_bloc.dart';
 import 'package:MCoins/presentation/modules/category_detail/models/item_type.dart';
+import 'package:flutter/material.dart';
 import 'package:records_db/records_db.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:collection/collection.dart' as CollectionUtils;
+import 'package:collection/collection.dart' as collection_utils;
 
 class CategoryDetailBloc extends BaseBloc {
   Stream<List<ItemType>> get items => _items.stream;
@@ -24,7 +25,7 @@ class CategoryDetailBloc extends BaseBloc {
     _recordsSubscription?.cancel();
     _recordsSubscription = _recordsRepository
         .watchRecordsForCategory(category.id)
-        .map((records) => CollectionUtils.groupBy<Record, int>(
+        .map((records) => collection_utils.groupBy<Record, int>(
             records, (r) => r.createdAt.month))
         .map((grouped) {
           final list = <ItemType>[];
@@ -35,7 +36,7 @@ class CategoryDetailBloc extends BaseBloc {
           return list;
         })
         .listen(_items.add, onError: (Object e) {
-          print("ERROR $e");
+          debugPrint("ERROR $e");
           return <ItemType>[];
         });
   }

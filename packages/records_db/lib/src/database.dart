@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:records_db/src/categories/categories_dao.dart';
 import 'package:records_db/src/categories/category_table.dart';
@@ -16,7 +17,7 @@ class RecordsDatabase extends _$RecordsDatabase {
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(beforeOpen: (details) async {
-      print("DB version: ${details.versionNow}");
+      debugPrint("DB version: ${details.versionNow}");
       if (details.wasCreated) {
         // add default categories
         await batch(

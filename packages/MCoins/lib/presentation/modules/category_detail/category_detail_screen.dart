@@ -44,6 +44,7 @@ class CategoryDetailScreen extends StatelessWidget {
           ],
           child: _List(
             category: category,
+            router: _router,
           ),
         ),
       ),
@@ -53,7 +54,8 @@ class CategoryDetailScreen extends StatelessWidget {
 
 class _List extends StatelessWidget {
   final Category category;
-  const _List({Key key, this.category}) : super(key: key);
+  final CategoryDetailRouter router;
+  const _List({Key key, @required this.category, @required this.router}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +86,12 @@ class _List extends StatelessWidget {
               final item = items[index];
               return item.when(
                 header: (date) => DateHeaderView(date: date.monthYearFormat),
-                item: (record) => PreviousRecordItem.fromModel(
-                    RecordWithCategory(record, category),
-                    backgroundColor: Colors.white),
+                item: (record) => GestureDetector(
+                  onTap: () => router.openEditRecord(context, RecordWithCategory(record, category)),
+                                  child: PreviousRecordItem.fromModel(
+                      RecordWithCategory(record, category),
+                      backgroundColor: Colors.white),
+                ),
               );
             },
           );

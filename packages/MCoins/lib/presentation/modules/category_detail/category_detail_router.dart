@@ -10,4 +10,10 @@ class CategoryDetailRouter {
         Screen(CreateRecordScreen(recordWithCategory: RecordWithCategory(null, category)));
     screen.show<void>(context);
   }
+  
+  void openEditRecord(BuildContext context, RecordWithCategory recordWithCategory) {
+    final screen =
+        Screen(CreateRecordScreen(recordWithCategory: recordWithCategory));
+    screen.show<void>(context);
+  }
 }

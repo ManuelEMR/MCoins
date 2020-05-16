@@ -1,4 +1,3 @@
-import 'package:MCoins/presentation/modules/home/categories/corner_detail_painter.dart';
 import 'package:flutter/material.dart';
 
 class HomeCategoryItem extends StatelessWidget {

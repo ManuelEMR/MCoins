@@ -89,7 +89,7 @@ class _$Create with DiagnosticableTreeMixin implements Create {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', '_Mode.create'));
+    properties.add(DiagnosticsProperty('type', '_Mode.create'));
   }
 
   @override

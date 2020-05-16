@@ -2,10 +2,7 @@ import 'package:MCoins/presentation/di/di_config.dart';
 import 'package:MCoins/presentation/modules/home/home_router.dart';
 import 'package:MCoins/presentation/modules/home/recents/recent_records_bloc.dart';
 import 'package:MCoins/presentation/modules/home/recents/previous_record_item.dart';
-import 'package:MCoins/presentation/foundation/extensions/category_color.dart';
-import 'package:MCoins/presentation/foundation/extensions/datetime_formatting.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:records_db/records_db.dart';
 

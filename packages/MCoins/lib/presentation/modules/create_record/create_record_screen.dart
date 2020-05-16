@@ -93,7 +93,7 @@ class _Body extends StatelessWidget {
         .upsert()
         .then((value) => Navigator.of(context).pop())
         .catchError((Object e) {
-      print(e);
+      debugPrint(e.toString());
       Fluttertoast.showToast(msg: 'Failed to create transaction');
       return null;
     });
