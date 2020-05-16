@@ -1,7 +1,9 @@
+import 'package:MCoins/presentation/di/di_config.dart';
 import 'package:MCoins/presentation/foundation/bloc_provider.dart';
 import 'package:MCoins/presentation/foundation/views/gradient_box_decoration.dart';
 import 'package:MCoins/presentation/foundation/views/platform_scaffold.dart';
 import 'package:MCoins/presentation/modules/category_detail/category_detail_bloc.dart';
+import 'package:MCoins/presentation/modules/category_detail/category_detail_router.dart';
 import 'package:MCoins/presentation/modules/category_detail/date_header_view.dart';
 import 'package:MCoins/presentation/modules/home/recents/previous_record_item.dart';
 import 'package:MCoins/presentation/modules/home/recents/recent_records_view.dart';
@@ -14,8 +16,9 @@ import 'models/item_type.dart';
 
 class CategoryDetailScreen extends StatelessWidget {
   final Category category;
+  final _router = injector.get<CategoryDetailRouter>();
 
-  const CategoryDetailScreen({this.category});
+  CategoryDetailScreen({this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class CategoryDetailScreen extends StatelessWidget {
           elevation: 0,
           barActions: <Widget>[
             IconButton(
-              onPressed: () => print("ADD"),
+              onPressed: () => _router.openCreateRecord(context, category),
               icon: Icon(Icons.add),
             )
           ],

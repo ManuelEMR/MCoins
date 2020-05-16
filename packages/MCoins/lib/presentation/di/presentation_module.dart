@@ -1,5 +1,6 @@
 import 'package:MCoins/presentation/di/di_config.dart';
 import 'package:MCoins/presentation/modules/category_detail/category_detail_bloc.dart';
+import 'package:MCoins/presentation/modules/category_detail/category_detail_router.dart';
 import 'package:MCoins/presentation/modules/create_record/create_record_bloc.dart';
 import 'package:MCoins/presentation/modules/home/categories/categories_bloc.dart';
 import 'package:MCoins/presentation/modules/home/recents/recent_records_bloc.dart';
@@ -11,6 +12,7 @@ class PresentationModule extends DIModule {
   @override
   void setupModule(Injector i) {
     i.map<HomeRouter>((_) => HomeRouter());
+    i.map<CategoryDetailRouter>((_) => CategoryDetailRouter());
 
     // Blocs
     i.map((i) => CategoriesBloc(i.get<RecordsDatabase>()));

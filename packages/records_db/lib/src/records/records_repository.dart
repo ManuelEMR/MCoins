@@ -31,7 +31,7 @@ class RecordsRepository {
     return _dao.updateRecord(companion);
   }
 
-  Future<List<Record>> getRecordsForCategory(int categoryId) {
-    return _dao.getRecordsForCategory(categoryId);
+  Stream<List<Record>> watchRecordsForCategory(int categoryId) {
+    return _dao.watchRecordsForCategory(categoryId);
   }
 }

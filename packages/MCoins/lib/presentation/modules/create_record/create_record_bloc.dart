@@ -59,11 +59,20 @@ class UpsertRecordBloc extends BaseBloc {
 
   void prefill(RecordWithCategory recordWithCategory) {
     if (recordWithCategory == null) return;
-    addDate(recordWithCategory.record.createdAt);
-    setCategory(recordWithCategory.category);
-    _amount.add(recordWithCategory.record.amount.toString());
-    _note.add(recordWithCategory.record.notes);
-    _mode.add(_Mode.edit(recordWithCategory));
+    final record = recordWithCategory.record;
+    final category = recordWithCategory.category;
+
+    if (record != null) {
+      addDate(record.createdAt);
+
+      _amount.add(record.amount.toString());
+      _note.add(record.notes);
+      _mode.add(_Mode.edit(recordWithCategory));
+    }
+
+    if (category != null ){
+      setCategory(category);
+    }
   }
 
   void addDate(DateTime date) {

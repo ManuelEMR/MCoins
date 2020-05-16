@@ -38,7 +38,7 @@ class RecordsDao extends DatabaseAccessor<RecordsDatabase>
         });
   }
 
-  Future<List<Record>> getRecordsForCategory(int categoryId) {
-    return (select(records)..where((tbl) => tbl.id.equals(categoryId))).get();
+  Stream<List<Record>> watchRecordsForCategory(int categoryId) {
+    return (select(records)..where((tbl) => tbl.categoryId.equals(categoryId))).watch();
   }
 }

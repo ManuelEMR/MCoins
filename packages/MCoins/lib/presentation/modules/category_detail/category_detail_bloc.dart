@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:MCoins/presentation/foundation/base_bloc.dart';
 import 'package:MCoins/presentation/modules/category_detail/models/item_type.dart';
 import 'package:records_db/records_db.dart';
@@ -8,17 +10,23 @@ class CategoryDetailBloc extends BaseBloc {
   Stream<List<ItemType>> get items => _items.stream;
 
   final _items = BehaviorSubject<List<ItemType>>.seeded([]);
+  StreamSubscription _recordsSubscription;
+  Category _watchedCategory;
 
   final RecordsRepository _recordsRepository;
 
   CategoryDetailBloc(this._recordsRepository);
 
   void getRecords(Category category) {
-    _recordsRepository
-        .getRecordsForCategory(category.id)
-        .then((records) => CollectionUtils.groupBy<Record, int>(
+    if (category.id == _watchedCategory?.id) return;
+
+    _watchedCategory = category;
+    _recordsSubscription?.cancel();
+    _recordsSubscription = _recordsRepository
+        .watchRecordsForCategory(category.id)
+        .map((records) => CollectionUtils.groupBy<Record, int>(
             records, (r) => r.createdAt.month))
-        .then((grouped) {
+        .map((grouped) {
           final list = <ItemType>[];
           grouped.forEach((key, records) {
             list.add(ItemType.header(date: records.first.createdAt));
@@ -26,8 +34,7 @@ class CategoryDetailBloc extends BaseBloc {
           });
           return list;
         })
-        .then(_items.add)
-        .catchError((Object e) {
+        .listen(_items.add, onError: (Object e) {
           print("ERROR $e");
           return <ItemType>[];
         });
