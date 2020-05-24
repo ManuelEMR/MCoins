@@ -14,6 +14,7 @@ class RecentRecordsBloc extends BaseBloc {
   final RecordsRepository _recordsRepository;
 
   RecentRecordsBloc(this._recordsRepository) {
+    //TODO: Need to change this to listen to records created on the ongoing month
     _recordsRepository.records.listen(_records.add).addTo(subscriptions);
   }
 }

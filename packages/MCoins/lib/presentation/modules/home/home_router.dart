@@ -1,4 +1,5 @@
 import 'package:MCoins/presentation/foundation/navigation/screen.dart';
+import 'package:MCoins/presentation/modules/balance/balance_screen.dart';
 import 'package:MCoins/presentation/modules/category_detail/category_detail_screen.dart';
 import 'package:MCoins/presentation/modules/create_record/create_record_screen.dart';
 import 'package:flutter/widgets.dart';
@@ -14,6 +15,11 @@ class HomeRouter {
 
   void openCategoryDetail(BuildContext context, Category category) {
     final screen = Screen(CategoryDetailScreen(category: category));
+    screen.pushSelf<void>(context);
+  }
+
+  void openBalanceScreen(BuildContext context) {
+    final screen = Screen(BalanceScreen());
     screen.pushSelf<void>(context);
   }
 }

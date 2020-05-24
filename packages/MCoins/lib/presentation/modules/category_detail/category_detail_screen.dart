@@ -6,7 +6,6 @@ import 'package:MCoins/presentation/modules/category_detail/category_detail_bloc
 import 'package:MCoins/presentation/modules/category_detail/category_detail_router.dart';
 import 'package:MCoins/presentation/modules/category_detail/date_header_view.dart';
 import 'package:MCoins/presentation/modules/home/recents/previous_record_item.dart';
-import 'package:MCoins/presentation/modules/home/recents/recent_records_view.dart';
 import 'package:MCoins/presentation/foundation/extensions/datetime_formatting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +54,8 @@ class CategoryDetailScreen extends StatelessWidget {
 class _List extends StatelessWidget {
   final Category category;
   final CategoryDetailRouter router;
-  const _List({Key key, @required this.category, @required this.router}) : super(key: key);
+  const _List({Key key, @required this.category, @required this.router})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +87,11 @@ class _List extends StatelessWidget {
               return item.when(
                 header: (date) => DateHeaderView(date: date.monthYearFormat),
                 item: (record) => GestureDetector(
-                  onTap: () => router.openEditRecord(context, RecordWithCategory(record, category)),
-                                  child: PreviousRecordItem.fromModel(
+                  onTap: () => router.openEditRecord(
+                    context,
+                    RecordWithCategory(record, category),
+                  ),
+                  child: PreviousRecordItem.fromModel(
                       RecordWithCategory(record, category),
                       backgroundColor: Colors.white),
                 ),
