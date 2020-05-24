@@ -1,3 +1,4 @@
+import 'package:MCoins/presentation/foundation/views/border_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:records_db/records_db.dart';
@@ -31,17 +32,10 @@ class PreviousRecordItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey[200],
-            width: 4,
-          ),
-          borderRadius: BorderRadius.circular(4),
-          color: backgroundColor,
-        ),
+      child: BorderDecoration(
         height: 80,
+        borderColor: Colors.grey[200],
+        backgroundColor: backgroundColor,
         child: Row(
           children: <Widget>[
             const SizedBox(width: 16),

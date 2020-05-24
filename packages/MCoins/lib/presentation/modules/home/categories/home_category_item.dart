@@ -1,3 +1,4 @@
+import 'package:MCoins/presentation/foundation/views/border_decoration.dart';
 import 'package:flutter/material.dart';
 
 class HomeCategoryItem extends StatelessWidget {
@@ -10,15 +11,8 @@ class HomeCategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: detailColor.withAlpha(50),
-            width: 4,
-          ),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        clipBehavior: Clip.antiAlias,
+      child: BorderDecoration(
+        borderColor: detailColor.withAlpha(50),
         child: Center(
           child: Text(
             title,

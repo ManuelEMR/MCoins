@@ -1,5 +1,6 @@
 import 'package:MCoins/presentation/foundation/bloc_provider.dart';
 import 'package:MCoins/presentation/foundation/views/gradient_box_decoration.dart';
+import 'package:MCoins/presentation/foundation/views/gradient_container.dart';
 import 'package:MCoins/presentation/foundation/views/platform_scaffold.dart';
 import 'package:MCoins/presentation/modules/create_record/create_record_bloc.dart';
 import 'package:MCoins/presentation/modules/create_record/views/record_property_item.dart';
@@ -20,13 +21,7 @@ class CreateRecordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<UpsertRecordBloc>(
       configurator: (UpsertRecordBloc bloc) => bloc.prefill(recordWithCategory),
-      child: Container(
-        decoration: GradientBoxDecoration(
-          colors: [
-            Theme.of(context).primaryColor,
-            Theme.of(context).primaryColorLight
-          ],
-        ),
+      child: GradientContainer(
         child: PlatformScaffold(
           backgroundColor: Colors.transparent,
           elevation: 0,

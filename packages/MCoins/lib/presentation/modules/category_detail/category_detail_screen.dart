@@ -1,6 +1,6 @@
 import 'package:MCoins/presentation/di/di_config.dart';
 import 'package:MCoins/presentation/foundation/bloc_provider.dart';
-import 'package:MCoins/presentation/foundation/views/gradient_box_decoration.dart';
+import 'package:MCoins/presentation/foundation/views/gradient_container.dart';
 import 'package:MCoins/presentation/foundation/views/platform_scaffold.dart';
 import 'package:MCoins/presentation/modules/category_detail/category_detail_bloc.dart';
 import 'package:MCoins/presentation/modules/category_detail/category_detail_router.dart';
@@ -23,13 +23,7 @@ class CategoryDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<CategoryDetailBloc>(
       configurator: (bloc) => bloc.getRecords(category),
-      child: Container(
-        decoration: GradientBoxDecoration(
-          colors: [
-            Theme.of(context).primaryColor,
-            Theme.of(context).primaryColorLight
-          ],
-        ),
+      child: GradientContainer(
         child: PlatformScaffold(
           title: Text(category.name),
           appBarBackgroundColor: Colors.transparent,
