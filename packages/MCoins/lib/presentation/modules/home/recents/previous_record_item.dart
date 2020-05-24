@@ -23,8 +23,7 @@ class PreviousRecordItem extends StatelessWidget {
       {this.backgroundColor})
       : categoryName = recordWithCategory.category.name,
         amount = NumberFormat.currency(name: '')
-            .format(recordWithCategory.record.amount)
-            .toString(),
+            .format(recordWithCategory.record.amount),
         date = recordWithCategory.record.createdAt.shortFormat,
         color = recordWithCategory.category.color;
 

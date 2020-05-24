@@ -1,4 +1,6 @@
+import 'package:MCoins/domain/usecases/generate_balance_usecase.dart';
 import 'package:MCoins/presentation/foundation/base_bloc.dart';
+import 'package:MCoins/presentation/modules/balance/models/balance.dart';
 import 'package:records_db/records_db.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:rxdart/rxdart.dart';
@@ -9,12 +11,18 @@ class RecentRecordsBloc extends BaseBloc {
         return r;
       });
 
+  Stream<Balance> get balance => records.map(_generateBalanceUseCase.generateBalance);
+
   final _records = BehaviorSubject<List<RecordWithCategory>>();
 
   final RecordsRepository _recordsRepository;
+  final GenerateBalanceUseCase _generateBalanceUseCase;
 
-  RecentRecordsBloc(this._recordsRepository) {
-    //TODO: Need to change this to listen to records created on the ongoing month
-    _recordsRepository.records.listen(_records.add).addTo(subscriptions);
+  RecentRecordsBloc(this._recordsRepository, this._generateBalanceUseCase) {
+    final now = DateTime.now();
+    _recordsRepository
+        .watchRecordsIn(now.month, now.year)
+        .listen(_records.add)
+        .addTo(subscriptions);
   }
 }

@@ -30,15 +30,32 @@ class RecordsDao extends DatabaseAccessor<RecordsDatabase>
               db.categories, db.categories.id.equalsExp(records.categoryId)),
         ])
         .watch()
-        .map((rows) {
-          return rows
-              .map((row) => RecordWithCategory(
-                  row.readTable(records), row.readTable(db.categories)))
-              .toList();
-        });
+        .map(_mapToRecordWithCategory);
   }
 
   Stream<List<Record>> watchRecordsForCategory(int categoryId) {
-    return (select(records)..where((tbl) => tbl.categoryId.equals(categoryId))).watch();
+    return (select(records)..where((tbl) => tbl.categoryId.equals(categoryId)))
+        .watch();
+  }
+
+  Stream<List<RecordWithCategory>> watchRecordsWithCategoriesIn(
+      int month, int year) {
+    return (select(records)
+          ..where((tbl) =>
+              tbl.createdAt.month.equals(month) &
+              tbl.createdAt.year.equals(year)))
+        .join([
+          leftOuterJoin(
+              db.categories, db.categories.id.equalsExp(records.categoryId)),
+        ])
+        .watch()
+        .map(_mapToRecordWithCategory);
+  }
+
+  List<RecordWithCategory> _mapToRecordWithCategory(List<TypedResult> rows) {
+    return rows
+        .map((row) => RecordWithCategory(
+            row.readTable(records), row.readTable(db.categories)))
+        .toList();
   }
 }

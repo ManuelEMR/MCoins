@@ -18,7 +18,7 @@ class BalanceScreen extends StatelessWidget {
             return Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-              child: BalanceItem(balance: Balance('May 2020', 2000, 1000)),
+              child: BalanceItem(balance: Balance(DateTime.now(), 2000, 1000)),
             );
           },
           itemCount: 20,

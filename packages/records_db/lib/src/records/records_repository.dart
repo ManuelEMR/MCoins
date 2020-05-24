@@ -34,4 +34,8 @@ class RecordsRepository {
   Stream<List<Record>> watchRecordsForCategory(int categoryId) {
     return _dao.watchRecordsForCategory(categoryId);
   }
+
+  Stream<List<RecordWithCategory>> watchRecordsIn(int month, int year) {
+    return _dao.watchRecordsWithCategoriesIn(month, year);
+  }
 }

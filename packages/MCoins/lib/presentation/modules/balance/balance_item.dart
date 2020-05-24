@@ -1,4 +1,5 @@
 import 'package:MCoins/presentation/foundation/views/border_decoration.dart';
+import 'package:MCoins/presentation/foundation/extensions/datetime_formatting.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -21,7 +22,7 @@ class BalanceItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('May 2020', style: textTheme.headline6),
+            Text(balance.date.monthYearFormat, style: textTheme.headline6),
             const SizedBox(height: 16),
             Row(
               children: <Widget>[
@@ -30,7 +31,7 @@ class BalanceItem extends StatelessWidget {
                   style: textTheme.bodyText1.copyWith(fontSize: 18),
                 ),
                 const SizedBox(width: 8),
-                Text(formatter.format(balance.balance).toString())
+                Text(formatter.format(balance.balance))
               ],
             ),
             Row(

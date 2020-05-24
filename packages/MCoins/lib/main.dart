@@ -1,6 +1,3 @@
-import 'package:MCoins/presentation/di/data_module.dart';
-import 'package:MCoins/presentation/di/di_config.dart';
-import 'package:MCoins/presentation/di/presentation_module.dart';
 import 'package:MCoins/presentation/foundation/bloc_provider.dart';
 import 'package:MCoins/presentation/foundation/views/platform_app.dart';
 import 'package:MCoins/presentation/modules/home/categories/categories_bloc.dart';
@@ -8,8 +5,13 @@ import 'package:MCoins/presentation/modules/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'presentation/di/data_module.dart';
+import 'presentation/di/di_config.dart';
+import 'presentation/di/domain_module.dart';
+import 'presentation/di/presentation_module.dart';
+
 void main() {
-  setupDI([PresentationModule(), DataModule()]);
+  setupDI([PresentationModule(), DomainModule(), DataModule()]);
   runApp(MyApp());
 }
 

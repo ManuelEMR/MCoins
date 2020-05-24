@@ -1,5 +1,5 @@
 class Balance {
-    final String date;
+    final DateTime date;
     final double balance;
     final double income;
     final double expenses;
