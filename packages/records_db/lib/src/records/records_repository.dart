@@ -4,12 +4,13 @@ import 'package:moor/moor.dart';
 import 'package:records_db/src/database.dart';
 import 'package:records_db/src/records/models/record_with_category.dart';
 import 'package:records_db/src/records/records_dao.dart';
+import 'package:rxdart/subjects.dart';
 
 class RecordsRepository {
   final RecordsDao _dao;
   Stream<List<RecordWithCategory>> get records => _records.stream;
 
-  final _records = StreamController<List<RecordWithCategory>>.broadcast();
+  final _records = BehaviorSubject<List<RecordWithCategory>>.seeded([]);
 
   RecordsRepository(this._dao) {
     _dao.watchRecordsWithCategories().listen(_records.add);

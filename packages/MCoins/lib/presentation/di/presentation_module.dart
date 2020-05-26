@@ -1,5 +1,6 @@
 import 'package:MCoins/domain/usecases/generate_balance_usecase.dart';
 import 'package:MCoins/presentation/di/di_config.dart';
+import 'package:MCoins/presentation/modules/balance/balance_bloc.dart';
 import 'package:MCoins/presentation/modules/category_detail/category_detail_bloc.dart';
 import 'package:MCoins/presentation/modules/category_detail/category_detail_router.dart';
 import 'package:MCoins/presentation/modules/create_record/create_record_bloc.dart';
@@ -21,5 +22,6 @@ class PresentationModule extends DIModule {
     i.map((i) => UpsertRecordBloc(
         i.get<CategoriesRepository>(), i.get<RecordsRepository>()));
     i.map((i) => CategoryDetailBloc(i.get<RecordsRepository>()));
+    i.map((i) => BalanceBloc(i.get<RecordsRepository>(), i.get<GenerateBalanceUseCase>()));
   }
 }

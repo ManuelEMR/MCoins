@@ -38,14 +38,14 @@ class BalanceItem extends StatelessWidget {
               children: <Widget>[
                 Text('Income:', style: textTheme.bodyText1),
                 const SizedBox(width: 8),
-                Text(formatter.format(balance.income).toString())
+                Text(formatter.format(balance.income))
               ],
             ),
             Row(
               children: <Widget>[
                 Text('Expenses:', style: textTheme.bodyText1),
                 const SizedBox(width: 8),
-                Text(formatter.format(balance.income))
+                Text(formatter.format(balance.expenses))
               ],
             ),
           ],

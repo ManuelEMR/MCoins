@@ -8,8 +8,8 @@ class GenerateBalanceUseCase {
     final expenses = records.where((element) => element.category.isExpense);
     final incomes = records.where((element) => !element.category.isExpense);
 
-    final expenseValue = expenses.map((e) => e.record.amount).reduce((value, element) => value + element);
-    final incomeValue = incomes.map((e) => e.record.amount).reduce((value, element) => value + element);
+    final expenseValue = expenses.map((e) => e.record.amount).fold<double>(0.0, (value, element) => value + element);
+    final incomeValue = incomes.map((e) => e.record.amount).fold<double>(0.0, (value, element) => value + element);
 
     return Balance(date, incomeValue, expenseValue);
   }
