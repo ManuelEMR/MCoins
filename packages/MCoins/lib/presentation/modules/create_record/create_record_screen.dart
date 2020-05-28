@@ -24,17 +24,23 @@ class CreateRecordScreen extends StatelessWidget {
       child: GradientContainer(
         child: PlatformScaffold(
           backgroundColor: Colors.transparent,
+          appBarBackgroundColor: Theme.of(context).primaryColor,
+          actionsColor: Colors.white,
           elevation: 0,
+          cupertinoBorder: null,
           title: Consumer<UpsertRecordBloc>(
             builder: (_, bloc, __) => Text(bloc.title),
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 32),
-                _Body(recordWithCategory: recordWithCategory),
-                const SizedBox(height: 32),
-              ],
+          child: SafeArea(
+            top: true,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 32),
+                  _Body(recordWithCategory: recordWithCategory),
+                  const SizedBox(height: 32),
+                ],
+              ),
             ),
           ),
         ),

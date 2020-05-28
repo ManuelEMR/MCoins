@@ -11,7 +11,7 @@ class RecentRecordsBloc extends BaseBloc {
         return r;
       });
 
-  Stream<Balance> get balance => records.map(_generateBalanceUseCase.generateBalance);
+  Stream<Balance> get balance => records.map(_generateBalanceUseCase.generateBalance).startWith(Balance.empty);
 
   final _records = BehaviorSubject<List<RecordWithCategory>>();
 

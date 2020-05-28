@@ -4,6 +4,8 @@ import 'package:records_db/records_db.dart';
 class GenerateBalanceUseCase {
 
   Balance generateBalance(List<RecordWithCategory> records) {
+    if (records.isEmpty) return Balance.empty;
+
     final date =  records.first.record.createdAt;
     final expenses = records.where((element) => element.category.isExpense);
     final incomes = records.where((element) => !element.category.isExpense);

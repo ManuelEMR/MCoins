@@ -12,45 +12,48 @@ class RecentRecordsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<RecentRecordsBloc>(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Center(
-              child: Text('Recent Spendings',
-                  style: Theme.of(context).textTheme.headline6),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () => _addNewExpense(context),
-                ),
+    return Material(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Center(
+                child: Text('Recent Spendings',
+                    style: Theme.of(context).textTheme.headline6),
               ),
-            )
-          ],
-        ),
-        const SizedBox(height: 24),
-        StreamBuilder<List<RecordWithCategory>>(
-          stream: bloc.records,
-          builder: (context, AsyncSnapshot<List<RecordWithCategory>> snapshot) {
-            final records = snapshot.data ?? [];
-            final items = records.take(10).map((r) {
-              return GestureDetector(
-                onTap: () => _editRecord(context, r),
-                child: PreviousRecordItem.fromModel(r),
-              );
-            }).toList();
-            return items.isEmpty
-                ? _EmptyRecordsView()
-                : Column(children: items);
-          },
-        ),
-      ],
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () => _addNewExpense(context),
+                  ),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 24),
+          StreamBuilder<List<RecordWithCategory>>(
+            stream: bloc.records,
+            builder:
+                (context, AsyncSnapshot<List<RecordWithCategory>> snapshot) {
+              final records = snapshot.data ?? [];
+              final items = records.take(10).map((r) {
+                return GestureDetector(
+                  onTap: () => _editRecord(context, r),
+                  child: PreviousRecordItem.fromModel(r),
+                );
+              }).toList();
+              return items.isEmpty
+                  ? _EmptyRecordsView()
+                  : Column(children: items);
+            },
+          ),
+        ],
+      ),
     );
   }
 

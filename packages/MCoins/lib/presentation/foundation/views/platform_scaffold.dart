@@ -8,17 +8,22 @@ class PlatformScaffold extends StatelessWidget {
   final Color backgroundColor;
   final Color appBarBackgroundColor;
   final List<Widget> actions;
+  final Color actionsColor;
   final Widget leading;
   final double elevation;
+
+  final Border cupertinoBorder;
 
   PlatformScaffold(
       {Key key,
       this.title,
       this.appBarBackgroundColor,
       List<Widget> barActions,
+      this.actionsColor,
       this.leading,
       this.backgroundColor,
       this.elevation,
+      this.cupertinoBorder,
       @required this.child})
       : actions = barActions ?? [],
         super(key: key);
@@ -49,6 +54,8 @@ class PlatformScaffold extends StatelessWidget {
                         middle: title,
                         trailing: trailing,
                         backgroundColor: appBarBackgroundColor,
+                        actionsForegroundColor: actionsColor,
+                        border: cupertinoBorder,
                       )
                     : null,
             backgroundColor: backgroundColor,

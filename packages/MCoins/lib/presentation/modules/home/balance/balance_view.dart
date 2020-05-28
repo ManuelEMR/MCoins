@@ -22,58 +22,60 @@ class _BalanceViewState extends State<BalanceView> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: const BalanceClipper(),
-      clipBehavior: Clip.antiAlias,
-      child: GradientContainer(
-        height: 250,
-        width: MediaQuery.of(context).size.width,
-        child: SafeArea(
-          top: true,
-          child: GestureDetector(
-            onTap: () =>
-                setState(() => _isShowingHistorical = !_isShowingHistorical),
-            child: SizedBox.expand(
-              child: Stack(alignment: Alignment.center, children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 4,
-                    ),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: _isShowingHistorical
-                      ? _HistoricalBalance(balance: widget.balance.balance)
-                      : _MonthlyBalance(
-                          income: widget.balance.income,
-                          expense: widget.balance.expenses,
-                        ),
-                ),
-                Align(
-                  alignment: const Alignment(0.86, 0),
-                  child: Container(
-                    width: 32,
-                    height: 32,
+    return Material(
+      child: ClipPath(
+        clipper: const BalanceClipper(),
+        clipBehavior: Clip.antiAlias,
+        child: GradientContainer(
+          height: 250,
+          width: MediaQuery.of(context).size.width,
+          child: SafeArea(
+            top: true,
+            child: GestureDetector(
+              onTap: () =>
+                  setState(() => _isShowingHistorical = !_isShowingHistorical),
+              child: SizedBox.expand(
+                child: Stack(alignment: Alignment.center, children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 16),
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Icon(
-                        Icons.list,
+                      border: Border.all(
                         color: Colors.white,
+                        width: 4,
                       ),
-                      onPressed: () =>
-                          widget._router.openBalanceScreen(context),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: _isShowingHistorical
+                        ? _HistoricalBalance(balance: widget.balance.balance)
+                        : _MonthlyBalance(
+                            income: widget.balance.income,
+                            expense: widget.balance.expenses,
+                          ),
+                  ),
+                  Align(
+                    alignment: const Alignment(0.86, 0),
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: Icon(
+                          Icons.list,
+                          color: Colors.white,
+                        ),
+                        onPressed: () =>
+                            widget._router.openBalanceScreen(context),
+                      ),
                     ),
                   ),
-                ),
-              ]),
+                ]),
+              ),
             ),
           ),
         ),

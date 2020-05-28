@@ -17,6 +17,14 @@ class PlatformApp extends StatelessWidget {
     const Locale('es', "EN"),
   ];
 
+  final ThemeData themeData = ThemeData(
+    primaryColor: const Color(0xff8c3599),
+    primaryColorLight: const Color(0xffb76fbc),
+    primaryColorDark: const Color(0xff4f2276),
+    accentColor: const Color(0xff34E641),
+    fontFamily: 'Montserrat',
+  );
+
   PlatformApp({this.child});
 
   @override
@@ -29,13 +37,7 @@ class PlatformApp extends StatelessWidget {
 
   Widget buildAndroid(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primaryColor: const Color(0xff8c3599),
-        primaryColorLight: const Color(0xffb76fbc),
-        primaryColorDark: const Color(0xff4f2276),
-        accentColor: const Color(0xff34E641),
-        fontFamily: 'Montserrat',
-      ),
+      theme: themeData,
       localizationsDelegates: _localizationDelegates,
       supportedLocales: _supportedLocales,
       home: I18n(child: child),
@@ -43,13 +45,17 @@ class PlatformApp extends StatelessWidget {
   }
 
   Widget buildIOS(BuildContext context) {
-    return CupertinoApp(
-      localizationsDelegates: _localizationDelegates,
-      theme: const CupertinoThemeData(
-        primaryColor: Color(0xff8c3599),
-        primaryContrastingColor: Color(0xff429935),
+    return Theme(
+      data: themeData,
+      child: CupertinoApp(
+        theme: const CupertinoThemeData(
+          primaryColor: Color(0xff8c3599),
+          primaryContrastingColor: Color(0xff429935),
+        ),
+        localizationsDelegates: _localizationDelegates,
+        supportedLocales: _supportedLocales,
+        home: I18n(child: child),
       ),
-      home: I18n(child: child),
     );
   }
 }
