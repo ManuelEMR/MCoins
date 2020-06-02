@@ -16,9 +16,11 @@ class HomeCategoryItem extends StatelessWidget {
         child: Center(
           child: Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context)
                 .textTheme
-                .headline5
+                .headline6
                 .copyWith(fontWeight: FontWeight.w500),
           ),
         ),

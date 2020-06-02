@@ -29,7 +29,7 @@ class CreateRecordScreen extends StatelessWidget {
           elevation: 0,
           cupertinoBorder: null,
           title: Consumer<UpsertRecordBloc>(
-            builder: (_, bloc, __) => Text(bloc.title),
+            builder: (_, bloc, __) => Text(bloc.title, style: TextStyle(color: Colors.white),),
           ),
           child: SafeArea(
             top: true,

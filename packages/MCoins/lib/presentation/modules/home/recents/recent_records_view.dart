@@ -28,7 +28,7 @@ class RecentRecordsView extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: IconButton(
-                    icon: const Icon(Icons.add),
+                    icon: const Icon(Icons.add, color: Colors.black),
                     onPressed: () => _addNewExpense(context),
                   ),
                 ),

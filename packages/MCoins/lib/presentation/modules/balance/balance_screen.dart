@@ -14,7 +14,10 @@ class BalanceScreen extends StatelessWidget {
     return BlocProvider<BalanceBloc>(
       child: GradientContainer(
         child: PlatformScaffold(
-          title: const Text('Balance'),
+          title: const Text('Balance', style: TextStyle(color: Colors.white),),
+          appBarBackgroundColor: Theme.of(context).primaryColor,
+          actionsColor: Colors.white,
+          cupertinoBorder: null,
           elevation: 0,
           backgroundColor: Colors.transparent,
           child: const _BalanceList(),

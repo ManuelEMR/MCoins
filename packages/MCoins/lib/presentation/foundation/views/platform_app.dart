@@ -22,6 +22,7 @@ class PlatformApp extends StatelessWidget {
     primaryColorLight: const Color(0xffb76fbc),
     primaryColorDark: const Color(0xff4f2276),
     accentColor: const Color(0xff34E641),
+    canvasColor: Colors.white,
     fontFamily: 'Montserrat',
   );
 

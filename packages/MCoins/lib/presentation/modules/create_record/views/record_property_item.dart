@@ -15,7 +15,7 @@ class RecordPropertyItem extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 32),
-          Icon(iconData, size: 50),
+          Icon(iconData, size: 40, color: Colors.black),
           const SizedBox(width: 32),
           Flexible(
             child: Column(
