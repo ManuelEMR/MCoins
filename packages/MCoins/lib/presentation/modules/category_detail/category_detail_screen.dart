@@ -23,21 +23,27 @@ class CategoryDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<CategoryDetailBloc>(
       configurator: (bloc) => bloc.getRecords(category),
-      child: GradientContainer(
-        child: PlatformScaffold(
-          title: Text(category.name),
-          appBarBackgroundColor: Colors.transparent,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          barActions: <Widget>[
-            IconButton(
-              onPressed: () => _router.openCreateRecord(context, category),
-              icon: Icon(Icons.add),
-            )
-          ],
-          child: _List(
-            category: category,
-            router: _router,
+      child: Material(
+        child: GradientContainer(
+          child: PlatformScaffold(
+            title: Text(category.name),
+            appBarBackgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            actionsColor: Colors.white,
+            elevation: 0,
+            barActions: <Widget>[
+              IconButton(
+                onPressed: () => _router.openCreateRecord(context, category),
+                icon: Icon(Icons.add),
+              )
+            ],
+            child: SafeArea(
+              top: true,
+              child: _List(
+                category: category,
+                router: _router,
+              ),
+            ),
           ),
         ),
       ),
